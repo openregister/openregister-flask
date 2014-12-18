@@ -1,0 +1,17 @@
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>URL</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for type in data %}
+    <tr>
+      <td>{{ type.type }}</td>
+      <td><a href="{{ type.url }}">{{ type.url }}</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+

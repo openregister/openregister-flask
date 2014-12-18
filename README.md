@@ -1,4 +1,4 @@
-thingstance
-===========
+things
+======
 
-The thing that serves things
+A data store of things

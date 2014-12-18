@@ -1,0 +1,16 @@
+Flask==0.10.1
+Flask-PyMongo==0.3.0
+Flask-Script==2.0.5
+Jinja2==2.7.3
+MarkupSafe==0.23
+Werkzeug==0.9.6
+aniso8601==0.90
+argparse==1.2.2
+gunicorn==19.1.1
+itsdangerous==0.24
+pymongo==2.7.2
+pytz==2014.10
+six==1.8.0
+PyYAML==3.11
+schematics==1.0-0
+-e file:////vagrant/apps/thing
