@@ -2,7 +2,7 @@ import os
 import ast
 import json
 
-from thing import Thing
+from thingstance import Thing
 
 class ThingLoader(object):
 

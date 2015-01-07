@@ -1,7 +1,7 @@
 import math
 import re
 
-from thing import Thing
+from thingstance import Thing
 from bson.objectid import ObjectId
 
 

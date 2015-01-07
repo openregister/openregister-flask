@@ -4,7 +4,7 @@ from flask import render_template, request, current_app
 from application import app
 from .resources import TypeListView, ThingListView, ThingView, output_json
 from application.resources import repository
-from thing import Thing
+from thingstance import Thing
 
 
 app.add_url_rule('/things.<string:extension>', view_func=TypeListView.as_view('type_list'))
