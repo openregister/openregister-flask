@@ -15,7 +15,7 @@ app.add_url_rule('/things/<string:type>/<string:_id>.<string:extension>', view_f
 
 @app.route("/")
 def index():
-    return render_template("index.html", base_url=app.config['BASE_URL'])
+    return render_template("index.html")
 
 @app.route("/things", methods=['POST'])
 def things():
