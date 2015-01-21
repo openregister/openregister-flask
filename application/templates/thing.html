@@ -2,12 +2,12 @@
 {% block content %}
 <div class="thing">
   <dl>
-      <dt class="hash"><a href="/Field/name/hash/latest">hash</a></li>
-      <dd class="hash">{{ hash }}</li>
     {% for field in thing | sort %}
       <dt class="{{ field }}"><a href="/Field/name/{{ field }}/latest">{{ field }}</a></li>
       <dd class="{{ field }}">{{ thing[field] }}</li>
     {% endfor %}
+      <dt class="hash"><a href="/Field/name/hash/latest">hash</a></li>
+      <dd class="hash">{{ hash }}</li>
   </dl>
 </section>
 </div>
