@@ -1,4 +1,4 @@
-things
-======
+Code for http://thingstance.org
 
-A data store of things
+[![Build Status](https://travis-ci.org/thingstance/thingstance.org.svg)](https://travis-ci.org/thingstance/thingstance.org) [![Coverage Status](https://coveralls.io/repos/thingstance/thingstance.org/badge.svg)](https://coveralls.io/r/thingstance/thingstance.org)
+ 
