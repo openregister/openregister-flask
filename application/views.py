@@ -1,30 +1,34 @@
-import json
-
-from flask import render_template, request, current_app
+from flask import render_template, request
 from application import app
-from .resources import TypeListView, ThingListView, ThingView, output_json
-from application.resources import repository
-from thingstance import Thing
+from .repository import repositories
 
 
-app.add_url_rule('/things.<string:extension>', view_func=TypeListView.as_view('type_list'))
+def subdomain(request):
+    return request.headers['Host'].split('.')[0]
 
-app.add_url_rule('/things/<string:type>.<string:extension>', view_func=ThingListView.as_view('thing_list'))
-
-app.add_url_rule('/things/<string:type>/<string:_id>.<string:extension>', view_func=ThingView.as_view('type_view'))
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    repository = repositories[subdomain(request)]
 
-@app.route("/things", methods=['POST'])
-def things():
-    thing = Thing(request.json)
-    uid = repository.save_thing(thing)
-    return output_json({'uid' : str(uid)}, 200)
+    if repository:
+        return render_template("repository.html", title=repository.name)
 
-@app.route("/things/<string:type>")
-def thing_for_user(type):
-    things = repository.find_thing_by_owner(type, request.args.get('issuedFor'))
-    return output_json(things, 200)
+    return render_template('error.html'), 404
 
+
+@app.route("/<tag>/<hash>")
+def thing(tag, hash):
+    repository = repositories[subdomain(request)]
+
+    if repository:
+        thing = repository.store.get(hash)
+
+        if thing:
+            return render_template("thing.html",
+                                   repository=repository.primitive,
+                                   title=repository.name + " ☞ " + tag,
+                                   hash=hash,
+                                   thing=thing.primitive)
+
+    return render_template('error.html'), 404

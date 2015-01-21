@@ -1,85 +1,14 @@
-<style>
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: "Helvetica Neue", "sans serif";
-  border-top: 10px solid #22313F;
-  color: #22313F;
-  background-color: #F2F1EF;
-}
-
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-
-table {
-  width: 100%;
-}
-
-
-h2 {
-  font-size: 1.5em;
-  line-height: 2em;
-  text-align: left;
-}
-
-th {
-  color: #F2F1EF;
-  background-color: #22313F;
-  font-weight: normal;
-}
-
-td, th {
-  text-align: left;
-  line-height: 1.5em;
-  padding-left: 0.25em;
-}
-header, nav, section, footer {
-  margin: 1em;
-}
-
-th.field, td.field {
-  width: 20%;
-}
-
-nav p {
-  font-family: "Baskerville";
-  font-style: italic;
-}
-
-</style>
-
-<header>
-  <h1><a href="">{{ data.uid }}</a></h1>
-</header>
-<nav>
-<h2><a href="/things.html">Thing</a> &gt; <a href="/things/{{ data.type }}.html">{{ data.type }}</a></h2>
-<p>A thingstance of a thing found in the thingoverse.</p>
-</nav>
-
-<section id="fields">
-<table>
-  <thead>
-    <tr>
-      <th>Property</th>
-      <th>Value</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for field in data.fields | sort  %}
-    <tr class="{{ field }}-field">
-      <td class="field"><a href="/fields/{{ field }}">{{ field }}</a></td>
-      <td class="value">{{ data.fields[field] }}</td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
-
+{% extends "base.html" %}
+{% block content %}
+<div class="thing">
+  <dl>
+      <dt class="hash"><a href="/Field/name/hash/latest">hash</a></li>
+      <dd class="hash">{{ hash }}</li>
+    {% for field in thing | sort %}
+      <dt class="{{ field }}"><a href="/Field/name/{{ field }}/latest">{{ field }}</a></li>
+      <dd class="{{ field }}">{{ thing[field] }}</li>
+    {% endfor %}
+  </dl>
 </section>
+</div>
+{% endblock %}

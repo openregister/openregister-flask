@@ -1,36 +1,60 @@
 .header {
-    background: #DE770F;
+  background: #cf956d;
+}
+
+body {
+  font-family: monospace;
+  background-color: #eee;
 }
 
 .top-bar {
-    max-width: 62.5rem;
-    margin: 0 auto 15px auto;
+  max-width: 62.5rem;
+  margin: 0 auto 15px auto;
 }
 
 .top-bar h1 {
-    margin-top: 0px;
-    font-size: 1.5rem;
-    text-align: center;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+  margin-top: 0px;
+  font-size: 2rem;
+  text-align: center;
+  font-family: monospace;
+  padding: 1rem 0;
+  font-weight: normal;
 }
 
 .top-bar a {
   text-decoration:none;
-  color:#fff;
+  color: #333333;
 }
 
-.panel {
-   background:#fff;
-   border-color:#ddd;
-   box-shadow: 1px 1px 1px #fafafa;
-   padding-bottom:2.5rem;
-   padding-top:2rem;
-   position:relative;
+/*
+ *  thing
+ */
+.thing .hash {
+    word-wrap: break-word;
+    border-top: none;
 }
 
-img.logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.thing dt {
+  line-height: 1;
+  border-top: dotted 1px #DDDDDD;
+  padding-top: 1rem;
+  font-size: 0.66667rem;
 }
+
+.thing dt a {
+  font-size: 0.66667rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+dl dd {
+  color: #333333;
+  font-size: 2rem;
+  font-weight: normal;
+  line-height: 1.4;
+}
+
+table tr:nth-of-type(even) {
+    background-color: transparent !important;
+}
+
