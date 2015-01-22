@@ -1,0 +1,7 @@
+<div class="representations">
+  <ul class="inline-list">
+    {% for representation in representations | sort %}
+      <li><a href="{{ request.path }}.{{ representation }}">{{ representation }}</a>
+    {% endfor %}
+  </ul>
+</div>

@@ -1,6 +1,6 @@
 body {
   font-family: monospace;
-  background-color: #eee;
+  background-color: #f1fdf1;
 }
 
 
@@ -41,7 +41,7 @@ body {
 
 .thing dt a {
   font-size: 0.66667rem;
-  font-weight: 600;
+  font-weight: normal;
   color: #333333;
 }
 
@@ -56,3 +56,23 @@ table tr:nth-of-type(even) {
     background-color: transparent !important;
 }
 
+.representations {
+  line-height: 1;
+  border-top: dotted 1px #DDDDDD;
+  padding-top: 1rem;
+  font-size: 0.66667rem;
+}
+
+.representations ul {
+  float: right;
+}
+
+.representations a {
+  font-size: 0.66667rem;
+  font-weight: normal;
+  color: #333333;
+}
+
+a:hover {
+  text-decoration: underline;
+}
