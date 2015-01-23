@@ -49,8 +49,8 @@ def thing_suffix(tag, hash, suffix):
             if suffix == "html":
                 return render_template("thing.html",
                                        repository=repository.primitive,
-                                       title=repository.name + " ☞ " + tag,
                                        representations=representations,
+                                       tag=tag,
                                        hash=hash,
                                        thing=thing.primitive)
 
