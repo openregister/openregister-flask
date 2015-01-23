@@ -21,6 +21,9 @@ init:
 	pip3 install -r requirements.txt
 	pip3 install -r requirements_test.txt
 
+upgrade:
+	pip3 install --upgrade -r requirements.txt
+
 clean:
 	-find . -name "*.pyc" | xargs rm -f
 	-find . -name "__pycache__" | xargs rm -rf
