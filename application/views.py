@@ -32,7 +32,7 @@ def index():
     if repository:
         return render_template("repository.html", title=repository.name)
 
-    return render_template('error.html'), 404
+    return render_template('404.html'), 404
 
 
 @app.route("/<tag>/<hash>")

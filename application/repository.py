@@ -12,6 +12,8 @@ class Repository(Thing):
         repositories[name] = self
         Thing.__init__(self, name=name, *args, **kwargs)
 
+
+# TBD load from things directory ..
 Repository(name='thingstance', tagsHeld={'Register'})
 Repository(name='education', tagsHeld={'Register'})
 Repository(name='school', tagsHeld={'School', 'Headteacher'})
