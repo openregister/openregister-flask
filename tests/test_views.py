@@ -7,4 +7,3 @@ def test_representations():
     assert 'native' not in views.representations
     assert views.representations['json'].content_type == 'application/json'
     assert views.representations['yaml'].content_type == 'application/yaml'
-
