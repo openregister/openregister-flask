@@ -12,7 +12,7 @@ coveralls:
 	py.test --cov application tests/ --cov-report=term --cov-report=html
 
 flake8:
-	flake8 application tests
+	flake8 application tests manage.py
 
 dist:
 	python3 setup.py sdist upload
@@ -20,6 +20,9 @@ dist:
 init:
 	pip3 install -r requirements.txt
 	pip3 install -r requirements_test.txt
+
+load:
+	manage.py load_data -s data
 
 upgrade:
 	pip3 install --upgrade -r requirements.txt

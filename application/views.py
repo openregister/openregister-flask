@@ -19,7 +19,7 @@ def subdomain(request):
     return request.headers['Host'].split('.')[0]
 
 
-def render_thing(thing, suffix):
+def represent_thing(thing, suffix):
     text = getattr(thing, suffix)
     resp = make_response(text, 200)
     resp.headers['Content-Type'] = representations[suffix].content_type
@@ -28,11 +28,15 @@ def render_thing(thing, suffix):
 
 @app.route("/")
 def index():
-    repository = repositories[subdomain(request)]
-    if repository:
-        return render_template("repository.html", title=repository.name)
-
-    return render_template('404.html'), 404
+    try:
+        repository = repositories[subdomain(request)]
+        return render_template("thing.html",
+                               repository=repository.primitive,
+                               tag="Registry",
+                               hash=repository.hash,
+                               thing=repository.primitive)
+    except KeyError:
+        return render_template('404.html'), 404
 
 
 @app.route("/<tag>/<hash>")
@@ -41,10 +45,10 @@ def thing(tag, hash):
 
 
 @app.route("/<tag>/<hash>.<suffix>")
-def thing_suffix(tag, hash, suffix):
-    repository = repositories[subdomain(request)]
-    if repository:
-        thing = repository.store.get(hash)
+def thing_suffix(tag, hash, suffix="html"):
+    try:
+        repository = repositories[subdomain(request)]
+        thing = repository._store.get(hash)
         if thing:
             if suffix == "html":
                 return render_template("thing.html",
@@ -55,6 +59,8 @@ def thing_suffix(tag, hash, suffix):
                                        thing=thing.primitive)
 
             if suffix in representations:
-                return render_thing(thing, suffix)
+                return represent_thing(thing, suffix)
+    except KeyError:
+        pass
 
-    return render_template('404.html'), 404
+    return render_template('404.html', repository=repository, tag=tag), 404

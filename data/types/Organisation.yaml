@@ -1,0 +1,9 @@
+name: Organisation
+text: A company, charity or other organisation.
+fields:
+- name
+- foundingDate
+- dissolutionDate
+extendsTag: Thing
+tags:
+- Tag

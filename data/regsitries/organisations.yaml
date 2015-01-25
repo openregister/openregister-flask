@@ -1,0 +1,24 @@
+name: organisations
+text: Institutions, companies, courts, and other associations.
+colour: #f1fdf1
+tagsHeld:
+- BusinessPartnership
+- Charity
+- CooperativeEnterprise
+- IndustrialAndProvidentSociety
+- LimitedPartnership
+- LimitedLiabilityPartnership
+- PrivateLimitedCompany
+- PublicLimitedCompany
+- SocialEnterprise
+- SoleTrader
+- UnincorporatedAssociation
+- UnlimitedCompany
+- Court
+- School
+- GovernmentOrganisation
+- PoliticalParty
+- TradeUnion
+- University
+tags:
+- Registry
