@@ -28,7 +28,7 @@ body {
 /*
  *  thing
  */
-.thing .hash {
+.hash {
     word-wrap: break-word;
 }
 
@@ -73,6 +73,21 @@ table tr:nth-of-type(even) {
   color: #333333;
 }
 
+a:active, a:visited {
+  text-decoration: none;
+  color: #333333;
+}
+
 a:hover {
   text-decoration: underline;
 }
+
+td {
+  padding-right: 1em;
+}
+
+a {
+  font-weight: normal;
+  color: #333333;
+}
+

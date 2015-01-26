@@ -1,7 +1,21 @@
-from flask import render_template, request, make_response
+from flask import render_template, request, make_response, Markup
 from application import app
 from .repository import repositories
 from thingstance.representations import representations as _representations
+
+
+@app.template_filter('tags')
+def tags_filter(tags):
+    result = ['<a href="/%s" class="tag">%s</a>' % (tag, tag) for tag in tags]
+    return Markup(result)
+
+@app.template_filter('datatype')
+def datatype_filter(value, fieldname):
+    if fieldname == "tags":
+        return tags_filter(value)
+    elif fieldname == "hash":
+        return Markup('<a href="/Thing/%s">%s</a>' % (value, value))
+    return value
 
 
 # TBD: push this into thingstance.representations ..
@@ -63,4 +77,33 @@ def thing_suffix(tag, hash, suffix="html"):
     except KeyError:
         pass
 
-    return render_template('404.html', repository=repository, tag=tag), 404
+    return render_template('404.html', tag=tag), 404
+
+
+@app.route("/Thing")
+def things():
+    return find_things("Thing", query={})
+
+
+@app.route("/<tag>")
+def tag(tag):
+    return find_things(tag, query={"tags":tag})
+
+
+def find_things(tag, query={}, suffix="html"):
+    try:
+        repository = repositories[subdomain(request)]
+        meta, things = repository._store.find(query)
+        things_list = [[thing.hash, thing.primitive] for thing in things]
+        if suffix == "html":
+            return render_template("things.html",
+                                   repository=repository.primitive,
+                                   representations=representations,
+                                   tag=tag,
+                                   meta=meta,
+                                   things_list=things_list)
+
+    except KeyError:
+        pass
+
+    return render_template('404.html', tag=tag), 404

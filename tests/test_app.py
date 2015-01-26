@@ -11,10 +11,9 @@ def test_get_unknown_domain_404():
     assert response.status_code == 404
 
 
-def test_get_tag_404():
-    tag = "ThisDoesNotExist"
-    response = app.get('/%s' % tag, base_url=education_url)
-    assert response.status_code == 404
+def test_get_things():
+    response = app.get('/Thing', base_url=education_url)
+    assert response.status_code == 200
 
 
 def test_get_thing_404():

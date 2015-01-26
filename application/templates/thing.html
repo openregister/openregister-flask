@@ -3,11 +3,11 @@
 <div class="thing">
   <dl>
     {% for field in thing | sort %}
-      <dt class="{{ field }}"><a href="/Field/name/{{ field }}/latest">{{ field }}</a></li>
-      <dd class="{{ field }}">{{ thing[field] }}</li>
+      <dt class="{{ field }}"><a href="/Field/name/{{ field }}">{{ field }}</a></dt>
+      <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
     {% endfor %}
-      <dt class="hash"><a href="/Field/name/hash/latest">hash</a></li>
-      <dd class="hash">{{ hash }}</li>
+      <dt class="hash"><a href="/Field/name/hash/latest">hash</a></dt>
+      <dd class="hash">{{ hash|datatype("hash") }}</dd>
   </dl>
 </div>
 {% include "representations.html" %}

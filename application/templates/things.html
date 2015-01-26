@@ -1,5 +1,14 @@
-{% for thing in things %}
-  <ul>
-    <li>{{ thing }}</li>
-  </ul>
+{% extends "base.html" %}
+{% block content %}
+<table class="things">
+{% for hash, thing in things_list %}
+  <tr>
+    <td class="hash"><a href="/{{ tag }}/{{ hash }}">{{ hash }}</a></td>
+    <td class="name">{{ thing.name }}</td>
+    <td class="tags">{{ thing.tags|tags }}</td>
+  </tr>
 {% endfor %}
+</table>
+{{ meta }}
+{% include "representations.html" %}
+{% endblock %}
