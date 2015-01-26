@@ -9,6 +9,7 @@ def tags_filter(tags):
     result = ['<a href="/%s" class="tag">%s</a>' % (tag, tag) for tag in tags]
     return Markup(result)
 
+
 @app.template_filter('datatype')
 def datatype_filter(value, fieldname):
     if fieldname == "tags":
@@ -89,7 +90,7 @@ def things():
 
 @app.route("/<tag>")
 def tag(tag):
-    return find_things(tag, query={"tags":tag})
+    return find_things(tag, query={"tags": tag})
 
 
 def find_things(tag, query={}, suffix="html"):
