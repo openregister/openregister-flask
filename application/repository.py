@@ -39,5 +39,5 @@ class Repository(Thing):
 Repository(name='Thingstance')
 Repository(name='Registries')
 Repository(name='Types')
-Repository(name='Education')
+Repository(name='Education', registers=['School','Headteacher'])
 Repository(name='Organisations')

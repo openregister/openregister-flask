@@ -91,3 +91,10 @@ a {
   color: #333333;
 }
 
+.meta {
+  line-height: 1;
+  border-top: dotted 1px #DDDDDD;
+  padding: 1em 0;
+  margin-top: 1em;
+  font-size: 0.66667rem;
+}

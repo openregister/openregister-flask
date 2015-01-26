@@ -13,6 +13,8 @@ def tags_filter(tags):
 def datatype_filter(value, fieldname):
     if fieldname == "tags":
         return tags_filter(value)
+    elif fieldname == "registers":
+        return tags_filter(value)
     elif fieldname == "hash":
         return Markup('<a href="/Thing/%s">%s</a>' % (value, value))
     return value
