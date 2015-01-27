@@ -93,6 +93,18 @@ def tag(tag):
     return find_things(tag, query={"tags": tag})
 
 
+@app.route("/<tag>/name/<value>")
+def tag_name_value(tag, value):
+    return find_latest_thing(tag, query={"tags": tag, "name": value})
+
+
+def find_latest_thing(tag, query={}, suffix="html"):
+    repository = repositories[subdomain(request)]
+    meta, things = repository._store.find(query)
+    thing = things[0]  # hack - find latest ..
+    return thing_suffix(tag, thing.hash, "html")
+
+
 def find_things(tag, query={}, suffix="html"):
     try:
         repository = repositories[subdomain(request)]

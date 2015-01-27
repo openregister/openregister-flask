@@ -32,13 +32,18 @@ class Repository(Thing):
                 elif suffix == ".json":
                     thing.json = text
 
-                self.store.put(thing)
+                self._store.put(thing)
 
 
-# TBD load from things directory ..
+# TBD URL scheme for registry/register/repository still unclear ..
 Repository(name='Thingstance')
-Repository(name='Registries')
-Repository(name='Types')
+Repository(name='Datatype', registry='Types', registers=['Datatype'])
+Repository(name='Field', registers=['Field'])
+Repository(name='Tag', registers=['Tag'])
+Repository(name='registry', registers=['Education', 'Organisation'])
+Repository(name='Types', registers=['Datatype', 'Tag', 'Field'])
 Repository(name='Education',
            registers=['School', 'Headteacher', 'Location', 'PostalAddress'])
-Repository(name='Organisations')
+Repository(name='Organisation')
+Repository(name='Notice')
+Repository(name='Geography')
