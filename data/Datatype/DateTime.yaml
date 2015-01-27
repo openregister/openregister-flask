@@ -1,0 +1,4 @@
+name: DateTime
+text: A combination of a date and a time in the format `[-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]` as described in chapter 5.4 of [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) eg. `2014-12-31T21:55:49`.
+tags: 
+- Datatype

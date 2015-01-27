@@ -1,8 +1,0 @@
-name: tags
-text: Definitions for tags, fields and datatypes used by things.
-tagsHeld:
-- Tag
-- Field
-- Datatype
-tags:
-- Register

@@ -1,0 +1,5 @@
+name: addressLocality
+text: The locality.
+datatype: String
+tags: 
+- Field

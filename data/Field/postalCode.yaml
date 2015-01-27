@@ -1,0 +1,5 @@
+name: postalCode
+text: The postal code.
+datatype: String
+tags: 
+- Field

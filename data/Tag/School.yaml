@@ -1,0 +1,11 @@
+name: School
+extendsTag: Organisation
+fields:
+- edubase
+- gender
+- religiousCharacter
+- minAge
+- maxAge
+- Headteacher
+tag:
+- Tag

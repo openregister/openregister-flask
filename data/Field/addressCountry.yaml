@@ -1,0 +1,5 @@
+name: addressCountry
+text: The country.
+datatype: String
+tags: 
+- Field

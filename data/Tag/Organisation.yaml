@@ -1,5 +1,5 @@
 name: Organisation
-text: A company, charity or other organisation.
+text: A company, institution, or other association.
 fields:
 - name
 - foundingDate

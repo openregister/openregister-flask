@@ -1,0 +1,5 @@
+name: datatype
+text: The fundametal datatype for a field.
+datatype: String
+tags:
+- Field

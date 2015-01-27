@@ -1,0 +1,5 @@
+name: startTime
+text: The start of an event or recording.
+datatype: DateTime
+tags: 
+- Field

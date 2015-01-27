@@ -1,0 +1,4 @@
+name: PrivateLimitedCompany
+extendsTag: Organisation
+tag:
+- Tag

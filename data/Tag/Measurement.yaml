@@ -1,0 +1,10 @@
+name: Measurement
+text: A measurement taken at a [[location]] by an [[instrument]].
+fields:
+- startTime
+- endTime
+- instrument
+- unitCode
+- value
+tags:
+- Tag

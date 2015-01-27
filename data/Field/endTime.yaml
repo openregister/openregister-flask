@@ -1,0 +1,5 @@
+name: endTime
+text: The end of an event or recording.
+datatype: DateTime
+tags: 
+- Field
