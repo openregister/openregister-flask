@@ -1,14 +1,29 @@
-{% extends "base.html" %}
+{% extends "registerbase.html" %}
+{% block title %}{{ repository.name }}{% endblock %}
+{% block header_title %}{{ repository.name}} Registry{% endblock %}
+
 {% block content %}
-<div class="thing">
-  <dl>
-    {% for field in thing | sort %}
-      <dt class="{{ field }}"><a href="http://field.thingstance.dev/Field/name/{{ field }}">{{ field }}</a></dt>
-      <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
-    {% endfor %}
-      <dt class="{{ field }}"><a href="http://field.thingstance.dev/Field/name/hash">hash</a></dt>
-      <dd class="hash">{{ hash|datatype("hash") }}</dd>
-  </dl>
-</div>
-{% include "representations.html" %}
+    <div class="row">
+      <div class="small-12 columns">
+
+          <h3 class="{{ tag }}">
+              {% for tag in thing['tags'] %}
+                  {{ tag|tag }}
+                  {% if not loop.last %} &gt; {% endif %}
+              {% endfor %}
+          </h3>
+
+        <div class="panel thing">
+          <dl>
+              <dt class="hash"><a href="http://field.thingstance.dev/Field/name/hash">hash</a></dt>
+              <dd class="hash">{{ hash|datatype("hash") }}</dd>
+            {% for field in thing | sort %}
+              <dt class="{{ field }}"><a href="http://field.thingstance.dev/Field/name/{{ field }}">{{ field }}</a></dt>
+              <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
+            {% endfor %}
+          </dl>
+          {% include "footer.html" %}
+      </div>
+    </div>
+  </div>
 {% endblock %}

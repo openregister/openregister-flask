@@ -1,34 +1,19 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% if repository %}{{ repository.name }}{% endif %}{% if tag %} ☞ {{ tag }}{% endif %}</title>
-    <script src="/static/js/vendor/modernizr.js"></script>
-    <link rel="stylesheet" href="/static/css/foundation.min.css" />
-    <link rel="stylesheet" href="/static/css/main.css" />
+    <meta charset="utf-8">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}" />
+    <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='images/icon.png') }}" />
+
+    <title>{% block title %}{% endblock%}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/foundation/css/foundation.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
-    <div class="header">
-      <nav class="top-bar" data-topbar="">
-        <h1><a href="/">{% if repository %}{{ repository.name }} Registry</a>{% endif %}{% if tag %} ☞ <a href="/{{ tag }}">{{ tag }}</a>{% endif %}</h1>
-      </nav>
-    </div>
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="panel">
-          {% block content %}
-          {% endblock %}
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-    </div>
-    <script src="/static/js/vendor/jquery.js"></script>
-    <script src="/static/js/foundation.min.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
-
+  {% block header %}
+  {% endblock %}  
+  {% block content %}
+  {% endblock %}
   </body>
 </html>

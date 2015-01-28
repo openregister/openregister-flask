@@ -1,14 +1,27 @@
-{% extends "base.html" %}
+{% extends "registerbase.html" %}
+{% block title %}{{ repository.name }}{% endblock %}
+{% block header_title %}{{ tag }} Register{% endblock %}
+
 {% block content %}
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="panel thing">
+
 <table class="things">
+  <tr>
+    <th>Name</th>
+    <th>Tags</th>
 {% for hash, thing in things_list %}
   <tr>
-    <td class="hash"><a href="/{{ tag }}/{{ hash }}">{{ hash }}</a></td>
-    <td class="name">{{ thing.name }}</td>
+    <td class="name"><a href="/{{ tag }}/{{ hash }}">{{ thing.name }}</a></td>
     <td class="tags">{{ thing.tags|tags }}</td>
   </tr>
 {% endfor %}
 </table>
-{% include "meta.html" %}
-{% include "representations.html" %}
+          {% include "meta.html" %}
+
+          {% include "footer.html" %}
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -1,48 +1,117 @@
-body {
-  font-family: monospace;
-  background-color: #f1fdf1;
+/* Typography */
+body, h1, h2,h3, h4, h5 .button, table, label {
+  /*font-family: 'Roboto Slab', serif;*/
+  font-family: 'nta', Arial, Helvetica;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight:bold;
 }
 
 
-.top-bar {
-  max-width: 62.5rem;
-  margin: 0px auto;
-  width: 100%;
-  padding: 0 0.9375rem;
+a {
+  color:#005EA5;
+}
+
+p, dl, ul, label {
+  font-size:1.2rem;
+}
+
+table {
+  width:100%;
+}
+
+.button {
+  background:#2372B5;
+  border-bottom:5px solid #255c8a;
+  font-family: 'nta', Arial, Helvetica!important;
+  font-weight:bold;
+  font-size: 1.35rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.75rem;
+}
+
+.button:hover, .button:focus {
+  background-color:#2372B5;
+}
+
+.header {
+  margin-bottom: 10px;
+}
+
+.top-bar #header_crest {
+  height: 45px; 
+  margin-top: -3px;
+  margin-right: 7px;
+  margin-left:4px;
+}
+
+.top-bar.home h1 {
+  text-align:left;
 }
 
 .top-bar h1 {
-  margin-top: 0px;
-  font-size: 2rem;
-  text-align: left;
-  font-family: monospace;
-  padding: 1rem 0;
-  font-weight: normal;
+  font-size: 1.35rem;
+  text-align:center;
+  margin-top:3px;
 }
 
 .top-bar a {
   text-decoration:none;
-  color: #333333;
+  color:#fff;
 }
 
-/*
- *  thing
- */
-.hash {
-    word-wrap: break-word;
+.top-bar h1.title {
+  padding-top: 7px;
+  font-size: 1.35rem;
+}
+
+
+.header, .header .top-bar {
+  background:#2372b5;
+  font-family:Helvetica, Arial, sans-serif;
+}
+
+.header .top-bar h1 {
+  font-family:Helvetica, Arial, sans-serif;
+  font-weight:normal;
+}
+
+/* things in registers*/
+.thing {
+  background:#eceded;
+  border:none;
+  border-radius: 0;
+  margin-top:1rem;
+}
+
+.thing, .thing h3 {
+  font-family:monospace;
+  font-weight: normal;
+}
+
+h3 {
+  padding-right:1rem;
+  font-weight: normal;
+  padding-bottom: 1em;
 }
 
 .thing dt {
+  font-weight: normal;
   line-height: 1;
   border-top: dotted 1px #DDDDDD;
   padding-top: 1rem;
-  font-size: 0.66667rem;
+  font-size: 1rem;
 }
 
 .thing dt a {
-  font-size: 0.66667rem;
   font-weight: normal;
   color: #333333;
+}
+
+.thing dt a:hover,
+.thing dt a:focus {
+  color: #007BA0;
 }
 
 dl dd {
@@ -52,49 +121,36 @@ dl dd {
   line-height: 1.4;
 }
 
-table tr:nth-of-type(even) {
-    background-color: transparent !important;
+.thing .thing-footer {
+  border-top:solid 2px #333;
+  padding-top:3rem;
+  padding-left:200px;
+  background:url(../images/crest_grey.png) no-repeat 0 10px;
+  min-height:160px;
 }
 
-.representations {
-  line-height: 1;
-  border-top: dotted 1px #DDDDDD;
-  padding-top: 1rem;
-  font-size: 0.66667rem;
+/* table */
+table.things {
+  font-family:monospace;
+  border: none;
+  background: #eceded;
 }
 
-.representations ul {
-  float: right;
+table.things tr {
+  background: #eceded;
 }
 
-.representations a {
-  font-size: 0.66667rem;
-  font-weight: normal;
-  color: #333333;
+table.things tr.even {
+  background: #eceded;
 }
 
-a:active, a:visited {
-  text-decoration: none;
-  color: #333333;
+table.things th,
+table.things td {
+  text-align: left;
+  border: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-td {
-  padding-right: 1em;
-}
-
-a {
-  font-weight: normal;
-  color: #333333;
-}
-
-.meta {
-  line-height: 1;
-  border-top: dotted 1px #DDDDDD;
-  padding: 1em 0;
-  margin-top: 1em;
-  font-size: 0.66667rem;
+/* fields */
+.hash {
+  word-wrap: break-word;
 }

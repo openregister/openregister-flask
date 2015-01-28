@@ -4,6 +4,12 @@ from .repository import repositories
 from thingstance.representations import representations as _representations
 
 
+@app.template_filter('tag')
+def tag_filter(tag):
+    result = '<a href="/%s" class="tag">%s</a>' % (tag, tag)
+    return Markup(result)
+
+
 @app.template_filter('tags')
 def tags_filter(tags):
     result = ['<a href="/%s" class="tag">%s</a>' % (tag, tag) for tag in tags]
@@ -12,6 +18,8 @@ def tags_filter(tags):
 
 @app.template_filter('datatype')
 def datatype_filter(value, fieldname):
+    if fieldname == "tag":
+        return tag_filter(value)
     if fieldname == "tags":
         return tags_filter(value)
     elif fieldname == "registers":
