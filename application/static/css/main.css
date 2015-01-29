@@ -85,15 +85,15 @@ table {
   margin-top:1rem;
 }
 
-.thing, .thing h3 {
+.thing {
   font-family:monospace;
-  font-weight: normal;
 }
 
 h3 {
   padding-right:1rem;
   font-weight: normal;
   padding-bottom: 1em;
+  font-family:monospace;
 }
 
 .thing dt {
@@ -112,6 +112,10 @@ h3 {
 .thing dt a:hover,
 .thing dt a:focus {
   color: #007BA0;
+}
+
+dl {
+  border-top: none;
 }
 
 dl dd {
