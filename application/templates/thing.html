@@ -7,7 +7,7 @@
       <div class="small-12 columns">
         <div class="panel thing">
           <dl>
-              <dt class="hash"><a href="http://field.thingstance.dev/name/hash">hash</a></dt>
+              <dt class="hash"><a href="http://field.thingstance.dev/name/hash/{{ hash }}">hash</a></dt>
               <dd class="hash">{{ hash|datatype("hash") }}</dd>
             {% for field in thing | sort %}
               <dt class="{{ field }}"><a href="http://field.thingstance.dev/name/{{ field }}">{{ field }}</a></dt>
