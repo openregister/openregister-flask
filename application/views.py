@@ -17,7 +17,7 @@ def datatype_filter(value, fieldname):
     if fieldname == "register":
         return register_filter(value)
     elif fieldname == "hash":
-        return Markup('<a href="/%s">%s</a>' % (value, value))
+        return Markup('<a href="/hash/%s">%s</a>' % (value, value))
     return value
 
 
