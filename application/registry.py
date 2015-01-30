@@ -21,6 +21,7 @@ class Register(Thing):
 
                 # assumes one thing per-file. There may be many, eg CSV
                 path = os.path.join(root, file)
+                print("opening %s" % path)
                 text = open(path).read()
 
                 thing = Thing()
