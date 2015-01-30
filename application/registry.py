@@ -4,17 +4,17 @@ from thingstance.stores.mongodb import MongoStore
 
 database = "thingstance"
 
-repositories = {}
+registers = {}
 
 
-class Repository(Thing):
+class Register(Thing):
     def __init__(self, name, *args, **kwargs):
         collection = name.lower()
         self._store = MongoStore(database=database, collection=collection)
-        repositories[collection] = self
+        registers[collection] = self
         Thing.__init__(self, name=name, *args, **kwargs)
 
-    # this belong in store / representations ..
+    # TBD: move to thingstance store / representations
     def load(self, path):
         for root, dirs, files in os.walk(path):
             for file in files:
@@ -35,15 +35,12 @@ class Repository(Thing):
                 self._store.put(thing)
 
 
-# TBD URL scheme for registry/register/repository still unclear ..
-Repository(name='Thingstance')
-Repository(name='Datatype', registry='Types', registers=['Datatype'])
-Repository(name='Field', registers=['Field'])
-Repository(name='Tag', registers=['Tag'])
-Repository(name='registry', registers=['Education', 'Organisation'])
-Repository(name='Types', registers=['Datatype', 'Tag', 'Field'])
-Repository(name='Education',
-           registers=['School', 'Headteacher', 'Location', 'PostalAddress'])
-Repository(name='Organisation')
-Repository(name='Notice')
-Repository(name='Geography')
+# TBD: load registers from the register register
+for name in ['Register',
+             'Court',
+             'School',
+             'Datatype',
+             'Field',
+             'Instrument',
+             'Measurement']:
+    Register(name)

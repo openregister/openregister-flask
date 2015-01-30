@@ -1,24 +1,16 @@
 {% extends "registerbase.html" %}
-{% block title %}{{ repository.name }}{% endblock %}
-{% block header_title %}{{ repository.name}} Registry{% endblock %}
+{% block title %}{{ register.name }}{% endblock %}
+{% block header_title %}{{ register.name}} Register{% endblock %}
 
 {% block content %}
     <div class="row">
       <div class="small-12 columns">
-
-          <h3 class="{{ tag }}">
-              {% for tag in thing['tags'] %}
-                  {{ tag|tag }}
-                  {% if not loop.last %} &gt; {% endif %}
-              {% endfor %}
-          </h3>
-
         <div class="panel thing">
           <dl>
-              <dt class="hash"><a href="http://field.thingstance.dev/Field/name/hash">hash</a></dt>
+              <dt class="hash"><a href="http://field.thingstance.dev/name/hash">hash</a></dt>
               <dd class="hash">{{ hash|datatype("hash") }}</dd>
             {% for field in thing | sort %}
-              <dt class="{{ field }}"><a href="http://field.thingstance.dev/Field/name/{{ field }}">{{ field }}</a></dt>
+              <dt class="{{ field }}"><a href="http://field.thingstance.dev/name/{{ field }}">{{ field }}</a></dt>
               <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
             {% endfor %}
           </dl>

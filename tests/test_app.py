@@ -3,7 +3,7 @@ import application
 
 app = application.app.test_client()
 registry_url = 'http://thingstance.org/'
-education_url = 'http://education.thingstance.org/'
+field_url = 'http://field.thingstance.org/'
 
 
 def test_get_unknown_domain_404():
@@ -12,11 +12,11 @@ def test_get_unknown_domain_404():
 
 
 def test_get_things():
-    response = app.get('/Thing', base_url=education_url)
+    response = app.get('/', base_url=field_url)
     assert response.status_code == 200
 
 
 def test_get_thing_404():
     hash = "aaaaaaaaa"
-    response = app.get('/Thing/%s' % hash, base_url=education_url)
+    response = app.get('/hash/%s' % hash, base_url=field_url)
     assert response.status_code == 404

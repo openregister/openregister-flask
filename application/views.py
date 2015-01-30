@@ -1,31 +1,23 @@
 from flask import render_template, request, make_response, Markup
 from application import app
-from .repository import repositories
+from .registry import registers
 from thingstance.representations import representations as _representations
 
 
-@app.template_filter('tag')
-def tag_filter(tag):
-    result = '<a href="/%s" class="tag">%s</a>' % (tag, tag)
+# TBD: register url should be constructed from the register object ..
+def register_filter(register):
+    result = ('<a href="%s.thingstance.dev"'
+              ' class="register">%s</a>' % (register, register))
     return Markup(result)
 
 
-@app.template_filter('tags')
-def tags_filter(tags):
-    result = ['<a href="/%s" class="tag">%s</a>' % (tag, tag) for tag in tags]
-    return Markup(result)
-
-
+# TBD: should be a register of filters for a Field/Datatype ..
 @app.template_filter('datatype')
 def datatype_filter(value, fieldname):
-    if fieldname == "tag":
-        return tag_filter(value)
-    if fieldname == "tags":
-        return tags_filter(value)
-    elif fieldname == "registers":
-        return tags_filter(value)
+    if fieldname == "register":
+        return register_filter(value)
     elif fieldname == "hash":
-        return Markup('<a href="/Thing/%s">%s</a>' % (value, value))
+        return Markup('<a href="/%s">%s</a>' % (value, value))
     return value
 
 
@@ -51,35 +43,22 @@ def represent_thing(thing, suffix):
     return resp
 
 
-@app.route("/")
-def index():
+@app.route("/hash/<hash>")
+def thing_by_hash(hash):
+    return thing_by_hash_suffix(hash, "html")
+
+
+@app.route("/hash/<hash>.<suffix>")
+def thing_by_hash_suffix(hash, suffix="html"):
+    register = None
     try:
-        repository = repositories[subdomain(request)]
-        return render_template("thing.html",
-                               repository=repository.primitive,
-                               tag="Registry",
-                               hash=repository.hash,
-                               thing=repository.primitive)
-    except KeyError:
-        return render_template('404.html'), 404
-
-
-@app.route("/<tag>/<hash>")
-def thing(tag, hash):
-    return thing_suffix(tag, hash, "html")
-
-
-@app.route("/<tag>/<hash>.<suffix>")
-def thing_suffix(tag, hash, suffix="html"):
-    try:
-        repository = repositories[subdomain(request)]
-        thing = repository._store.get(hash)
+        register = registers[subdomain(request)]
+        thing = register._store.get(hash)
         if thing:
             if suffix == "html":
                 return render_template("thing.html",
-                                       repository=repository.primitive,
+                                       register=register.primitive,
                                        representations=representations,
-                                       tag=tag,
                                        hash=hash,
                                        thing=thing.primitive)
 
@@ -88,45 +67,40 @@ def thing_suffix(tag, hash, suffix="html"):
     except KeyError:
         pass
 
-    return render_template('404.html', tag=tag), 404
+    return render_template('404.html', register=register), 404
 
 
-@app.route("/Thing")
+@app.route("/")
 def things():
     return find_things("Thing", query={})
 
 
-@app.route("/<tag>")
-def tag(tag):
-    return find_things(tag, query={"tags": tag})
+@app.route("/name/<name>")
+def find_latest_thing_by_name(name):
+    return find_latest_thing(query={"name": name})
 
 
-@app.route("/<tag>/name/<value>")
-def tag_name_value(tag, value):
-    return find_latest_thing(tag, query={"tags": tag, "name": value})
-
-
-def find_latest_thing(tag, query={}, suffix="html"):
-    repository = repositories[subdomain(request)]
-    meta, things = repository._store.find(query)
-    thing = things[0]  # hack - find latest ..
-    return thing_suffix(tag, thing.hash, "html")
+def find_latest_thing(query={}, suffix="html"):
+    register = registers[subdomain(request)]
+    meta, things = register._store.find(query)
+    thing = things[0]  # egregious hack to find latest ..
+    return thing_by_hash_suffix(thing.hash, "html")
 
 
 def find_things(tag, query={}, suffix="html"):
+    register = None
     try:
-        repository = repositories[subdomain(request)]
-        meta, things = repository._store.find(query)
+        register = registers[subdomain(request)]
+        meta, things = register._store.find(query)
         things_list = [[thing.hash, thing.primitive] for thing in things]
         if suffix == "html":
             return render_template("things.html",
-                                   repository=repository.primitive,
+                                   register=register.primitive,
                                    representations=representations,
-                                   tag=tag,
                                    meta=meta,
                                    things_list=things_list)
 
     except KeyError:
         pass
 
-    return render_template('404.html', tag=tag), 404
+    return render_template('404.html', register=register), 404

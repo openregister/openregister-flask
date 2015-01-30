@@ -1,6 +1,6 @@
 {% extends "registerbase.html" %}
-{% block title %}{{ repository.name }}{% endblock %}
-{% block header_title %}{{ tag }} Register{% endblock %}
+{% block title %}{{ register.name }} Register{% endblock %}
+{% block header_title %}{{ register.name }} Register{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -9,12 +9,12 @@
 
 <table class="things">
   <tr>
+    <th>Hash</th>
     <th>Name</th>
-    <th>Tags</th>
 {% for hash, thing in things_list %}
   <tr>
-    <td class="name"><a href="/{{ tag }}/{{ hash }}">{{ thing.name }}</a></td>
-    <td class="tags">{{ thing.tags|tags }}</td>
+    <td class="hash"><a href="/hash/{{ hash }}">{{ hash }}</a></td>
+    <td class="name"><a href="/name/{{ name }}">{{ thing.name }}</a></td>
   </tr>
 {% endfor %}
 </table>
