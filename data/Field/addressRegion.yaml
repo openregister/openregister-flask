@@ -1,5 +1,4 @@
+register: Field
 name: addressRegion
 text: The region.
 datatype: String
-tags: 
-- Field

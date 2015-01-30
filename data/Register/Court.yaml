@@ -1,0 +1,7 @@
+register: Register
+name: Court
+fields:
+- name
+- foundingDate
+- dissolutionDate
+- sameAs

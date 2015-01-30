@@ -1,0 +1,7 @@
+register: Register
+name: Company
+text: a commercial organisation which trades in goods or services.
+- name
+- foundingDate
+- dissolutionDate
+- sameAs

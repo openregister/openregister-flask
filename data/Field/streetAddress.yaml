@@ -1,5 +1,4 @@
+register: Field
 name: streetAddress
 text: The street address.
 datatype: String
-tags: 
-- Field

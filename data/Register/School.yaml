@@ -1,11 +1,13 @@
+register: Register
 name: School
-extendsTag: Organisation
 fields:
+- name
+- foundingDate
+- dissolutionDate
 - edubase
 - gender
 - religiousCharacter
 - minAge
 - maxAge
 - Headteacher
-tag:
-- Tag
+- sameAs

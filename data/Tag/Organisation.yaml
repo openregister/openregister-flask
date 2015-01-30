@@ -1,9 +1,0 @@
-name: Organisation
-text: A company, institution, or other association.
-fields:
-- name
-- foundingDate
-- dissolutionDate
-extendsTag: Thing
-tags:
-- Tag
