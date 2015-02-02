@@ -3,25 +3,60 @@
 {% block header_title %}{{ register.name }} Register{% endblock %}
 
 {% block content %}
+
     <div class="row">
+
       <div class="small-12 columns">
+
+        <div class="row intro">
+
+          <div class="medium-9 small-12 columns">
+            <h1>{{ register.name }} Register</h1>
+            <p>A register of {{ register.name }}s.</p>
+          </div>
+
+          <div class="medium-3 small-12 columns metadata">
+            <span class="big-number">{{ meta.total }}</span>
+            <h4 class="subheader"><small>Total entries</small></h4>
+          </div>
+
+        </div>
+
+        <h2 class="entries">View entries</h2>
+
         <div class="panel thing">
 
-<table class="things">
-  <tr>
-    <th>Hash</th>
-    <th>Name</th>
-{% for hash, thing in things_list %}
-  <tr>
-    <td class="hash"><a href="/hash/{{ hash }}">{{ hash }}</a></td>
-    <td class="name"><a href="/name/{{ thing.name }}">{{ thing.name }}</a></td>
-  </tr>
-{% endfor %}
-</table>
+          <div class="table-outer">
+
+            <table class="things">
+              <tr>
+                <th>name</th>
+              {% for key in thing_keys %}
+                <th>{{ key }}</td>
+              {% endfor %}
+                <th>last update</th>
+              </tr>
+              {% for hash, thing in things_list %}
+              <tr>
+                <td class="name"><a href="/name/{{ thing.name }}">{{ thing.name }}</a></td>
+              {% for key in thing_keys %}
+                <td class="name">{{ thing[key]|datatype(key) }}</td>
+              {% endfor %}
+                <td class="hash"><a href="/hash/{{ hash }}">{{ hash }}</a></td>
+              </tr>
+              {% endfor %}
+            </table>
+
+          </div>
+
           {% include "meta.html" %}
 
           {% include "footer.html" %}
-      </div>
-    </div>
-  </div>
+
+        </div><!-- /.panel -->
+
+    </div> <!-- /.columns -->
+
+  </div> <!-- ./row -->
+
 {% endblock %}

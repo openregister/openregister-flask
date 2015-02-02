@@ -35,12 +35,18 @@ table {
   background-color:#2372B5;
 }
 
+/* header */
 .header {
   margin-bottom: 10px;
 }
 
+.header, .header .top-bar {
+  background:#2372b5;
+  font-family:Helvetica, Arial, sans-serif;
+}
+
 .top-bar #header_crest {
-  height: 45px; 
+  height: 45px;
   margin-top: -3px;
   margin-right: 7px;
   margin-left:4px;
@@ -53,7 +59,9 @@ table {
 .top-bar h1 {
   font-size: 1.35rem;
   text-align:center;
-  margin-top:3px;
+  margin:3px;
+  font-family:Helvetica, Arial, sans-serif;
+  font-weight:normal;
 }
 
 .top-bar a {
@@ -61,20 +69,20 @@ table {
   color:#fff;
 }
 
-.top-bar h1.title {
-  padding-top: 7px;
-  font-size: 1.35rem;
+/* intro */
+.entries {
+  border-top: solid 1px #ddd;
+  padding-top: 4px;
 }
 
-
-.header, .header .top-bar {
-  background:#2372b5;
-  font-family:Helvetica, Arial, sans-serif;
+.subheader {
+  text-transform: uppercase;
 }
 
-.header .top-bar h1 {
-  font-family:Helvetica, Arial, sans-serif;
-  font-weight:normal;
+.big-number {
+  font-size: 72px;
+  line-height: 86px;
+  font-weight: bold;
 }
 
 /* things in registers*/
@@ -83,9 +91,6 @@ table {
   border:none;
   border-radius: 0;
   margin-top:1rem;
-}
-
-.thing {
   font-family:monospace;
 }
 
@@ -134,10 +139,14 @@ dl dd {
 }
 
 /* table */
+.table-outer {
+  overflow-x: scroll;
+}
+
 table.things {
   font-family:monospace;
   border: none;
-  background: #eceded;
+  background: #ccc;
 }
 
 table.things tr {
@@ -152,9 +161,20 @@ table.things th,
 table.things td {
   text-align: left;
   border: none;
+  vertical-align: top;
 }
 
 /* fields */
 .hash {
   word-wrap: break-word;
+}
+
+@media only screen and (max-width: 40em) {
+  .intro p {
+    margin-bottom: 4px;
+  }
+  .big-number {
+    font-size: 36px;
+    line-height: 48px;
+  }
 }
