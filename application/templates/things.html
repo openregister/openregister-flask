@@ -26,28 +26,43 @@
 
         <div class="panel thing">
 
-          <div class="table-outer">
+        <div id="table-outer">
 
-            <table class="things">
+          <span class="search">
+            Find entry:
+            <input id="search-input" placeholder="search" />
+          </span>
+
+          <table class="things">
+
+            <thead>
               <tr>
-                <th>name</th>
+                <th>name <span class="sort" data-sort="name">sort</span></th>
               {% for key in thing_keys %}
-                <th>{{ key }}</td>
+                <th>{{ key }} <span class="sort" data-sort="{{ key }}">sort</span></td>
               {% endfor %}
                 <th>last update</th>
               </tr>
+              </tr>
+            </thead>
+
+            <tbody class="list">
+
               {% for hash, thing in things_list %}
               <tr>
                 <td class="name"><a href="/name/{{ thing.name }}">{{ thing.name }}</a></td>
               {% for key in thing_keys %}
-                <td class="name">{{ thing[key]|datatype(key) }}</td>
+                <td class="{{ key }}">{{ thing[key]|datatype(key) }}</td>
               {% endfor %}
                 <td class="hash"><a href="/hash/{{ hash }}">{{ hash }}</a></td>
               </tr>
               {% endfor %}
-            </table>
 
-          </div>
+            </tbody>
+
+          </table>
+
+        </div>
 
           {% include "meta.html" %}
 
@@ -58,5 +73,25 @@
     </div> <!-- /.columns -->
 
   </div> <!-- ./row -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='vendor/listjs/list.min.js') }}"></script>
+<script type="text/javascript">
+  (function() {
+
+    var valueNames = ['name'];
+    {% for key in thing_keys %}
+    valueNames.push('{{ key }}')
+    {% endfor %}
+    var options = {
+      valueNames: valueNames
+    };
+    var itemList = new List('table-outer', options);
+    itemList.on('updated', function() {
+      var s = document.getElementById('total');
+      s.innerHTML = itemList.visibleItems.length;
+    });
+
+  })();
+</script>
 
 {% endblock %}

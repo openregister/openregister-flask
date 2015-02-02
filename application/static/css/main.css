@@ -139,7 +139,7 @@ dl dd {
 }
 
 /* table */
-.table-outer {
+#table-outer {
   overflow-x: scroll;
 }
 
@@ -162,6 +162,7 @@ table.things td {
   text-align: left;
   border: none;
   vertical-align: top;
+  min-width: 180px;
 }
 
 /* fields */
@@ -169,6 +170,55 @@ table.things td {
   word-wrap: break-word;
 }
 
+/* table sorting and filtering */
+.search {
+  float: right;
+  padding-bottom: 10px;
+}
+#search-input {
+  margin-left: 5px;
+  font-family:monospace;
+}
+
+.sort {
+  padding: 1px 10px;
+  border-radius: 2px;
+  border: none;
+  background-color: #e6e6e6;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+.sort:hover, .sort.asc, .sort.desc {
+  background-color: #ccc;
+}
+
+.sort:after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content: "";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+
+.sort.asc:after {
+  border-top: 5px solid black;
+  top:4px;
+}
+
+.sort.desc:after {
+  border-bottom: 5px solid black;
+  top:0px;
+}
+
+/* responsive styles */
 @media only screen and (max-width: 40em) {
   .intro p {
     margin-bottom: 4px;
