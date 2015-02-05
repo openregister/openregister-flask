@@ -130,14 +130,6 @@ dl dd {
   line-height: 1.4;
 }
 
-.thing .thing-footer {
-  border-top:solid 2px #333;
-  padding-top:3rem;
-  padding-left:200px;
-  background:url(../images/crest_grey.png) no-repeat 0 10px;
-  min-height:160px;
-}
-
 /* table */
 #table-outer {
   overflow-x: scroll;
