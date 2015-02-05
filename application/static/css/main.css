@@ -171,20 +171,22 @@ table.things td {
 
 /* table sorting and filtering */
 .search {
-  float: right;
   padding-bottom: 10px;
   visibility: hidden;
 }
+
 #search-input {
   margin-left: 5px;
   font-family:monospace;
+  height: 1.2rem;
+  border-radius: 0.3rem;
 }
 
 .sort {
   padding: 1px 10px;
   border-radius: 2px;
   border: none;
-  background-color: #e6e6e6;
+  background-color: #FAFAFA;
   display: inline-block;
   cursor: pointer;
   font-size: 12px;
