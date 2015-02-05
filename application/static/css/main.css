@@ -220,6 +220,15 @@ table.things td {
   top:0px;
 }
 
+/* representations */
+.representations {
+  margin-bottom: 0.5rem;
+}
+.representation {
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
 /* responsive styles */
 @media only screen and (max-width: 40em) {
   .intro p {
