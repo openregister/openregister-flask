@@ -8,17 +8,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:bold;
 }
 
-
 a {
   color:#005EA5;
 }
 
 p, dl, ul, label {
   font-size:1.2rem;
-}
-
-table {
-  width:100%;
 }
 
 .button {
@@ -70,11 +65,6 @@ table {
 }
 
 /* intro */
-.entries {
-  border-top: solid 1px #ddd;
-  padding-top: 4px;
-}
-
 .subheader {
   text-transform: uppercase;
 }
@@ -85,19 +75,18 @@ table {
   font-weight: bold;
 }
 
+h2 {
+  border-top: solid 1px #ddd;
+  padding-top: 4px;
+}
+
 /* things in registers*/
 .thing {
   background:#eceded;
   border:none;
   border-radius: 0;
   margin-top:1rem;
-  font-family:monospace;
-}
-
-h3 {
-  padding-right:1rem;
-  font-weight: normal;
-  padding-bottom: 1em;
+  margin-bottom: 1rem;
   font-family:monospace;
 }
 
@@ -125,7 +114,7 @@ dl {
 
 dl dd {
   color: #333333;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: normal;
   line-height: 1.4;
 }
@@ -139,6 +128,7 @@ dl dd {
 }
 
 table.things {
+  width: 100%;
   font-family:monospace;
   border: none;
   background: #ccc;

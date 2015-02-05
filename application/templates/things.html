@@ -22,16 +22,22 @@
 
         </div>
 
-        <h2 class="entries">View entries</h2>
+        <h2>Get the data</h2>
 
-        <div class="panel thing">
+        {% include "representations.html" %}
+
+        {% include "licence.html" %}
+
+        <h2>View entries</h2>
+
+        <div class="panel thing" id="entries">
+
+        <div class="search">
+          Filter entries:
+          <input id="search-input" placeholder="search" />
+        </div>
 
         <div id="table-outer">
-
-          <span class="search">
-            Find entry:
-            <input id="search-input" placeholder="search" />
-          </span>
 
           <table class="things">
 
@@ -64,9 +70,7 @@
 
         </div>
 
-          {% include "meta.html" %}
-
-          {% include "footer.html" %}
+        {% include "meta.html" %}
 
         </div><!-- /.panel -->
 
@@ -91,7 +95,7 @@
     var options = {
       valueNames: valueNames
     };
-    var itemList = new List('table-outer', options);
+    var itemList = new List('entries', options);
     itemList.on('updated', function() {
       var s = document.getElementById('visible-records');
       s.innerHTML = itemList.visibleItems.length;
