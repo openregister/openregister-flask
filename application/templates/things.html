@@ -93,7 +93,7 @@
     };
     var itemList = new List('table-outer', options);
     itemList.on('updated', function() {
-      var s = document.getElementById('total');
+      var s = document.getElementById('visible-records');
       s.innerHTML = itemList.visibleItems.length;
     });
 
