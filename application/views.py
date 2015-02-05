@@ -33,7 +33,11 @@ for representation in _representations:
 
 
 def subdomain(request):
-    return request.headers['Host'].split('.')[0]
+    import os
+    if 'REGISTER' in os.environ:
+        return os.environ['REGISTER'] # temp workround for heroku named apps
+    else:
+        return request.headers['Host'].split('.')[0]
 
 
 def represent_thing(thing, suffix):
