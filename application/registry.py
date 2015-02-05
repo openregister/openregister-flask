@@ -2,15 +2,12 @@ import os
 from thingstance import Thing
 from thingstance.stores.mongodb import MongoStore
 
-database = "thingstance"
-
 registers = {}
 
-
 class Register(Thing):
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name, mongo_uri, *args, **kwargs):
         collection = name.lower()
-        self._store = MongoStore(database=database, collection=collection)
+        self._store = MongoStore(mongo_uri, collection=collection)
         registers[collection] = self
         Thing.__init__(self, name=name, *args, **kwargs)
 
@@ -37,11 +34,11 @@ class Register(Thing):
 
 
 # TBD: load registers from the register register
-for name in ['Register',
-             'Court',
-             'School',
-             'Datatype',
-             'Field',
-             'Instrument',
-             'Measurement']:
-    Register(name)
+# for name in ['Register',
+#              'Court',
+#              'School',
+#              'Datatype',
+#              'Field',
+#              'Instrument',
+#              'Measurement']:
+#     Register(name, app.config['MONGO_URI'])
