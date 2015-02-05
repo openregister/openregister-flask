@@ -15,7 +15,7 @@ def load_data(source):
     for name in os.listdir(source):
         path = os.path.join(source, name)
         if os.path.isdir(path):
-            register = Register(name=name, app.config['MONGO_URI'])
+            register = Register(name, app.config['MONGO_URI'])
             register.load(path)
 
 
