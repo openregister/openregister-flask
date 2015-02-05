@@ -133,12 +133,19 @@ dl dd {
 /* table */
 #table-outer {
   overflow-x: scroll;
+  max-height: 600px;
+  clear: both;
+  margin-bottom: 1rem;
 }
 
 table.things {
   font-family:monospace;
   border: none;
   background: #ccc;
+}
+
+table.things tbody {
+    overflow-y: scroll;
 }
 
 table.things tr {
