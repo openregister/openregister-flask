@@ -93,12 +93,19 @@ def find_things(tag, query={}, suffix="html"):
         register = registers[subdomain(request)]
         meta, things = register._store.find(query)
         things_list = [[thing.hash, thing.primitive] for thing in things]
+        thing_keys = []
+        if things_list:
+            thing_keys = [field for field in things_list[0][1]]
+            thing_keys.remove('register')
+            thing_keys.remove('name')
+            thing_keys.sort()
         if suffix == "html":
             return render_template("things.html",
                                    register=register.primitive,
                                    representations=representations,
                                    meta=meta,
-                                   things_list=things_list)
+                                   things_list=things_list,
+                                   thing_keys=thing_keys)
 
     except KeyError:
         pass
