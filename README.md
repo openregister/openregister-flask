@@ -30,6 +30,8 @@ Add the following line to your hosts file on your host machine (you may want to 
 
     0.0.0.0 register.thingstance.dev field.thingstance.dev tag.thingstance.dev datatype.thingstance.dev education.thingstance.dev
 
+Alternatively setup DNS on your machine to resolve \*.dev to localhost using something like [DNSMasq](http://www.toddandrae.com/?p=111)
+
 Run the app:
 
     ./run_dev.sh
