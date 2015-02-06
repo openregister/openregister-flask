@@ -1,7 +1,7 @@
 <p class="representations">
-    The information on this page is also available as:
+    <strong>Download all entries:</strong>
     {% for representation in representations | sort %}
-      <a href="{{ request.path }}.{{ representation }}">{{ representation }}</a>
-      {%- if not loop.last %}, {% else -%}.{% endif %}
+      <a href="{{ request.path }}.{{ representation }}" class="representation">{{ representation }}</a>
+      {%- if not loop.last %}, {% endif %}
     {% endfor %}
 </p>

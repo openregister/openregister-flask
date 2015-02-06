@@ -8,17 +8,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:bold;
 }
 
-
 a {
   color:#005EA5;
 }
 
 p, dl, ul, label {
   font-size:1.2rem;
-}
-
-table {
-  width:100%;
 }
 
 .button {
@@ -70,11 +65,6 @@ table {
 }
 
 /* intro */
-.entries {
-  border-top: solid 1px #ddd;
-  padding-top: 4px;
-}
-
 .subheader {
   text-transform: uppercase;
 }
@@ -85,19 +75,18 @@ table {
   font-weight: bold;
 }
 
+h2 {
+  border-top: solid 1px #ddd;
+  padding-top: 4px;
+}
+
 /* things in registers*/
 .thing {
   background:#eceded;
   border:none;
   border-radius: 0;
   margin-top:1rem;
-  font-family:monospace;
-}
-
-h3 {
-  padding-right:1rem;
-  font-weight: normal;
-  padding-bottom: 1em;
+  margin-bottom: 1rem;
   font-family:monospace;
 }
 
@@ -125,28 +114,28 @@ dl {
 
 dl dd {
   color: #333333;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: normal;
   line-height: 1.4;
-}
-
-.thing .thing-footer {
-  border-top:solid 2px #333;
-  padding-top:3rem;
-  padding-left:200px;
-  background:url(../images/crest_grey.png) no-repeat 0 10px;
-  min-height:160px;
 }
 
 /* table */
 #table-outer {
   overflow-x: scroll;
+  max-height: 600px;
+  clear: both;
+  margin-bottom: 1rem;
 }
 
 table.things {
+  width: 100%;
   font-family:monospace;
   border: none;
   background: #ccc;
+}
+
+table.things tbody {
+    overflow-y: scroll;
 }
 
 table.things tr {
@@ -172,23 +161,27 @@ table.things td {
 
 /* table sorting and filtering */
 .search {
-  float: right;
   padding-bottom: 10px;
+  visibility: hidden;
 }
+
 #search-input {
   margin-left: 5px;
   font-family:monospace;
+  height: 1.2rem;
+  border-radius: 0.3rem;
 }
 
 .sort {
   padding: 1px 10px;
   border-radius: 2px;
   border: none;
-  background-color: #e6e6e6;
+  background-color: #FAFAFA;
   display: inline-block;
   cursor: pointer;
   font-size: 12px;
   min-width: 50px;
+  display: none;
 }
 
 .sort:hover, .sort.asc, .sort.desc {
@@ -216,6 +209,15 @@ table.things td {
 .sort.desc:after {
   border-bottom: 5px solid black;
   top:0px;
+}
+
+/* representations */
+.representations {
+  margin-bottom: 0.5rem;
+}
+.representation {
+  text-transform: uppercase;
+  font-size: 1rem;
 }
 
 /* responsive styles */
