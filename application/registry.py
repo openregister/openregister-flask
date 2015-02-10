@@ -4,6 +4,7 @@ from thingstance.stores.mongodb import MongoStore
 
 registers = {}
 
+
 class Register(Thing):
     def __init__(self, name, mongo_uri, *args, **kwargs):
         collection = name.lower()
@@ -16,15 +17,26 @@ class Register(Thing):
         for root, dirs, files in os.walk(path):
             for file in files:
 
-                # assumes one thing per-file. There may be many, eg CSV
                 path = os.path.join(root, file)
-                print("opening %s" % path)
+                suffix = os.path.splitext(path)[1]
+
+                # this belong in representation / thing
+
+                # file of many things ..
+                import csv
+                with open(path) as f:
+                    reader = csv.DictReader(f, delimiter='\t')
+                    for d in reader:
+                        if len(d.keys()):
+                            thing = Thing()
+                            thing.primitive = d
+                            self._store.put(thing)
+
+                # assumes one thing per-file.
+                print("slurping %s" % path)
                 text = open(path).read()
 
                 thing = Thing()
-
-                # this belong in representation / thing
-                suffix = os.path.splitext(path)[1]
                 if suffix == ".yaml":
                     thing.yaml = text
                 elif suffix == ".json":
