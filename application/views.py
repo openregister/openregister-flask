@@ -6,7 +6,7 @@ from thingstance.representations import representations as _representations
 
 # TBD: register url should be constructed from the register object ..
 def register_filter(register):
-    result = ('<a href="%s.thingstance.dev"'
+    result = ('<a href="http://%s.register.dev"'
               ' class="register">%s</a>' % (register, register))
     return Markup(result)
 
@@ -14,6 +14,12 @@ def register_filter(register):
 # TBD: should be a register of filters for a Field/Datatype ..
 @app.template_filter('datatype')
 def datatype_filter(value, fieldname):
+    if fieldname == "sameAs":
+        return Markup('<a href="%s">%s</a>' % (value, value))
+    if fieldname == "address":
+        return Markup('<a href="http://address.register.dev/hash/%s">%s</a>' % (value, value))
+    if fieldname == "addressCountry":
+        return Markup('<a href="http://country.register.dev/name/%s">%s</a>' % (value, value))
     if fieldname == "register":
         return register_filter(value)
     elif fieldname == "hash":
