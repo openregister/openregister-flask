@@ -12,7 +12,7 @@
 
           <div class="medium-9 small-12 columns">
             <h1>{{ register.name }} Register</h1>
-            <p>A register of {{ register.name }}s.</p>
+            <p>A register of {{ register.name }} entries.</p>
           </div>
 
           <div class="medium-3 small-12 columns metadata">
@@ -41,7 +41,6 @@
               {% for key in thing_keys %}
                 <th>{{ key }} <span class="sort" data-sort="{{ key }}">sort</span></td>
               {% endfor %}
-                <th>last update</th>
               </tr>
               </tr>
             </thead>
@@ -54,7 +53,6 @@
               {% for key in thing_keys %}
                 <td class="{{ key }}">{{ thing[key]|datatype(key) }}</td>
               {% endfor %}
-                <td class="hash"><a href="/hash/{{ hash }}">{{ hash }}</a></td>
               </tr>
               {% endfor %}
 
