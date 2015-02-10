@@ -16,6 +16,9 @@ if not app.debug:
 # TBD: load registers from the register register
 from .registry import Register
 for name in ['Register',
+             'Country',
+             'Company',
+             'Address',
              'Court',
              'School',
              'Datatype',
