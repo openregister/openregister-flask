@@ -1,4 +1,0 @@
-register: Field
-name: latitude
-text: A [WSG84](http://en.wikipedia.org/wiki/World_Geodetic_System) [latitude](http://en.wikipedia.org/wiki/Latitude) value.
-basetype: Float

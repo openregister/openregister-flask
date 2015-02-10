@@ -1,5 +1,0 @@
-register: Register
-name: Instrument
-text: An real world object or device, capable of recoding a [[Measurement]].
-fields:
-- location

@@ -1,4 +1,0 @@
-register: Field
-name: longitude
-text: A [WSG84](http://en.wikipedia.org/wiki/World_Geodetic_System) [longitude](http://en.wikipedia.org/wiki/Longitude) value.
-datatype: Float

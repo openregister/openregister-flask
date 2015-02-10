@@ -1,4 +1,0 @@
-register: Field
-name: foundingDate
-text: The ISO 8601 time the organisation was established.
-datatype: DateTime

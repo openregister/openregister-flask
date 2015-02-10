@@ -1,4 +1,0 @@
-register: Field
-name: value
-text: A numerical value.
-datatype: Float

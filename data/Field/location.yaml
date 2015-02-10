@@ -1,4 +1,0 @@
-register: Field
-name: location
-text: The geographical location of the event, organisation or action.
-datatype: Location

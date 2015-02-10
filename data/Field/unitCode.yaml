@@ -1,4 +1,0 @@
-register: Field
-name: unitCode
-text: The unit of measurement for a `value` as the 3 character [UN/CEFACT Common Code](http://wiki.goodrelations-vocabulary.org/Documentation/UN/CEFACT_Common_Codes).
-datatype: String

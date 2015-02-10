@@ -1,4 +1,0 @@
-register: Field
-name: hash
-text: A digest of the canonical serialisation of a Thing which may used to identify a thing from its contents. The hash may appear as a part of a `Link` to uniquely address a specific version of a Thing.
-datatype: Digest

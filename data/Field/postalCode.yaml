@@ -1,4 +1,0 @@
-register: Field
-name: postalCode
-text: The postal code.
-datatype: String

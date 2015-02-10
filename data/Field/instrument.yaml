@@ -1,4 +1,0 @@
-register: Field
-name: instrument
-text: An object which recorded a [[Measurement]].
-basetype: Instrument

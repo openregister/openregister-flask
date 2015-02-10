@@ -1,8 +1,0 @@
-register: Register
-name: TradeUnion
-citation: https://www.gov.uk/government/publications/public-list-of-active-trade-unions-official-list-and-schedule/trade-unions-the-current-list-and-schedule
-fields:
-- name
-- foundingDate
-- dissolutionDate
-- sameAs

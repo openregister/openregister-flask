@@ -1,4 +1,0 @@
-register: Field
-name: urn
-text: An informal [URN](http://en.wikipedia.org/wiki/Uniform_resource_name) value comprising of a series of name (NID) and value (NSS) pairs, each separated by `:`. A URN value which conform to [RFC 2141](https://tools.ietf.org/html/rfc2141) and which are [registered](http://www.iana.org/assignments/urn-namespaces/urn-namespaces.xhtml) with IANA should be prefixed with `urn:`
-datatype: String
