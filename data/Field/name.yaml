@@ -1,4 +1,0 @@
-register: Field
-name: name
-text: A human-readable identifier for a Thing, which may used to construct a [Semantic URL](http://en.wikipedia.org/wiki/Semantic_URL#Slug).
-datatype: String

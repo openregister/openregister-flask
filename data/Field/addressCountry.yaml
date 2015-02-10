@@ -1,4 +1,0 @@
-register: Field
-name: addressCountry
-text: The country.
-datatype: String

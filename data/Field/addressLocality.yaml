@@ -1,4 +1,0 @@
-register: Field
-name: addressLocality
-text: The locality.
-datatype: String

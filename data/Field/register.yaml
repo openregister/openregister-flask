@@ -1,4 +1,0 @@
-register: Field
-name: register
-text: The name of the [[Register]] in which a [[Field]] appears.
-datatype: String

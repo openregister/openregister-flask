@@ -1,9 +1,0 @@
-register: Register
-name: Measurement
-text: A measurement taken at a [[Location]] by an [[Instrument]].
-fields:
-- startTime
-- endTime
-- instrument
-- unitCode
-- value

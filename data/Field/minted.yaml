@@ -1,4 +1,0 @@
-register: Field
-name: minted
-text: The ISO 8601 time the thing was minted (created).
-datatype: DateTime
