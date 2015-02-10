@@ -6,7 +6,7 @@ from thingstance.representations import representations as _representations
 
 # TBD: register url should be constructed from the register object ..
 def register_filter(register):
-    result = ('<a href="%s.thingstance.dev"'
+    result = ('<a href="http://%s.register.dev"'
               ' class="register">%s</a>' % (register, register))
     return Markup(result)
 
@@ -14,6 +14,14 @@ def register_filter(register):
 # TBD: should be a register of filters for a Field/Datatype ..
 @app.template_filter('datatype')
 def datatype_filter(value, fieldname):
+    if fieldname == "sameAs":
+        return Markup('<a href="%s">%s</a>' % (value, value))
+    if fieldname == "address":
+        return Markup('<a href="http://address.%s/hash/%s">%s</a>'
+                      % (app.config['REGISTER_DOMAIN'], value, value))
+    if fieldname == "addressCountry":
+        return Markup('<a href="http://country.%s/name/%s">%s</a>'
+                      % (app.config['REGISTER_DOMAIN'], value, value))
     if fieldname == "register":
         return register_filter(value)
     elif fieldname == "hash":
@@ -35,7 +43,8 @@ for representation in _representations:
 def subdomain(request):
     import os
     if 'REGISTER' in os.environ:
-        return os.environ['REGISTER'] # temp workround for heroku named apps
+        # temp workround for heroku named apps
+        return os.environ['REGISTER']
     else:
         return request.headers['Host'].split('.')[0]
 
@@ -100,8 +109,10 @@ def find_things(tag, query={}, suffix="html"):
         thing_keys = []
         if things_list:
             thing_keys = [field for field in things_list[0][1]]
-            thing_keys.remove('register')
-            thing_keys.remove('name')
+            if 'register' in thing_keys:
+                thing_keys.remove('register')
+            if 'name' in thing_keys:
+                thing_keys.remove('name')
             thing_keys.sort()
         if suffix == "html":
             return render_template("things.html",
