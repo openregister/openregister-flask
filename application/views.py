@@ -17,9 +17,11 @@ def datatype_filter(value, fieldname):
     if fieldname == "sameAs":
         return Markup('<a href="%s">%s</a>' % (value, value))
     if fieldname == "address":
-        return Markup('<a href="http://address.register.dev/hash/%s">%s</a>' % (value, value))
+        return Markup('<a href="http://address.%s/hash/%s">%s</a>'
+                      % (app.config['REGISTER_DOMAIN'], value, value))
     if fieldname == "addressCountry":
-        return Markup('<a href="http://country.register.dev/name/%s">%s</a>' % (value, value))
+        return Markup('<a href="http://country.%s/name/%s">%s</a>'
+                      % (app.config['REGISTER_DOMAIN'], value, value))
     if fieldname == "register":
         return register_filter(value)
     elif fieldname == "hash":
@@ -41,7 +43,8 @@ for representation in _representations:
 def subdomain(request):
     import os
     if 'REGISTER' in os.environ:
-        return os.environ['REGISTER'] # temp workround for heroku named apps
+        # temp workround for heroku named apps
+        return os.environ['REGISTER']
     else:
         return request.headers['Host'].split('.')[0]
 
