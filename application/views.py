@@ -100,8 +100,10 @@ def find_things(tag, query={}, suffix="html"):
         thing_keys = []
         if things_list:
             thing_keys = [field for field in things_list[0][1]]
-            thing_keys.remove('register')
-            thing_keys.remove('name')
+            if 'register' in thing_keys:
+                thing_keys.remove('register')
+            if 'name' in thing_keys:
+                thing_keys.remove('name')
             thing_keys.sort()
         if suffix == "html":
             return render_template("things.html",
