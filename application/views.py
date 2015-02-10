@@ -1,6 +1,17 @@
-from flask import render_template, request, make_response, Markup
+from flask import (
+    render_template,
+    request,
+    make_response,
+    Markup,
+    redirect,
+    url_for,
+    abort,
+    flash,
+    current_app
+)
+
 from application import app
-from .registry import registers
+from .registry import registers, Register
 from thingstance.representations import representations as _representations
 
 
@@ -41,12 +52,11 @@ for representation in _representations:
 
 
 def subdomain(request):
-    import os
-    if 'REGISTER' in os.environ:
-        # temp workround for heroku named apps
-        return os.environ['REGISTER']
+    subdomain = request.headers['Host'].split('.')[0]
+    if '-' in subdomain:
+        return subdomain.split('-')[0]
     else:
-        return request.headers['Host'].split('.')[0]
+        return subdomain
 
 
 def represent_thing(thing, suffix):
@@ -63,24 +73,21 @@ def thing_by_hash(hash):
 
 @app.route("/hash/<hash>.<suffix>")
 def thing_by_hash_suffix(hash, suffix="html"):
-    register = None
-    try:
-        register = registers[subdomain(request)]
-        thing = register._store.get(hash)
-        if thing:
-            if suffix == "html":
-                return render_template("thing.html",
-                                       register=register.primitive,
-                                       representations=representations,
-                                       hash=hash,
-                                       thing=thing.primitive)
+    register_name = subdomain(request)
+    register = find_or_initalise_register(register_name)
+    thing = register._store.get(hash)
+    if thing:
+        if suffix == "html":
+            return render_template("thing.html",
+                                   register=register.primitive,
+                                   representations=representations,
+                                   hash=hash,
+                                   thing=thing.primitive)
 
-            if suffix in representations:
+        if suffix in representations:
                 return represent_thing(thing, suffix)
-    except KeyError:
-        pass
-
-    return render_template('404.html', register=register), 404
+    else:
+        abort(404)
 
 
 @app.route("/")
@@ -94,35 +101,41 @@ def find_latest_thing_by_name(name):
 
 
 def find_latest_thing(query={}, suffix="html"):
-    register = registers[subdomain(request)]
+    register_name = subdomain(request)
+    register = find_or_initalise_register(register_name)
     meta, things = register._store.find(query)
     thing = things[0]  # egregious hack to find latest ..
     return thing_by_hash_suffix(thing.hash, "html")
 
 
 def find_things(tag, query={}, suffix="html"):
-    register = None
-    try:
-        register = registers[subdomain(request)]
-        meta, things = register._store.find(query)
-        things_list = [[thing.hash, thing.primitive] for thing in things]
-        thing_keys = []
-        if things_list:
-            thing_keys = [field for field in things_list[0][1]]
-            if 'register' in thing_keys:
-                thing_keys.remove('register')
-            if 'name' in thing_keys:
-                thing_keys.remove('name')
-            thing_keys.sort()
-        if suffix == "html":
-            return render_template("things.html",
-                                   register=register.primitive,
-                                   representations=representations,
-                                   meta=meta,
-                                   things_list=things_list,
-                                   thing_keys=thing_keys)
+    register_name = subdomain(request)
+    register = find_or_initalise_register(register_name)
+    meta, things = register._store.find(query)
 
-    except KeyError:
-        pass
+    things_list = [[thing.hash, thing.primitive] for thing in things]
+    thing_keys = []
+    if things_list:
+        thing_keys = [field for field in things_list[0][1]]
+        if 'register' in thing_keys:
+            thing_keys.remove('register')
+        if 'name' in thing_keys:
+            thing_keys.remove('name')
+        thing_keys.sort()
+    if suffix == "html":
+        return render_template("things.html",
+                               register=register.primitive,
+                               representations=representations,
+                               meta=meta,
+                               things_list=things_list,
+                               thing_keys=thing_keys)
 
-    return render_template('404.html', register=register), 404
+
+def find_or_initalise_register(register_name):
+    #TODO have another look at this
+    if register_name not in current_app.config['REGISTERS']:
+        return abort(404)
+    register = registers.get(register_name)
+    if not register:
+        registers[register_name] = Register(register_name, current_app.config['MONGO_URI'])
+    return registers.get(register_name)

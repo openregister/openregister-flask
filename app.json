@@ -1,0 +1,33 @@
+{
+  "name": "Open Register sample",
+  "description": "Deploy to heroku via platform API",
+  "repository": "https://github.com/openregister/server",
+  "keywords": ["flask"],
+  "addons": ["mongolab"],
+  "env": {
+        "SETTINGS": {
+            "description": "This configuration to use for this application",
+            "value": "config.Config"
+        },
+        "BASE_URL": {
+            "description": "The base url for the application - override on deploy",
+            "value": "http://register.dev"
+        },
+        "PAGE_SIZE": {
+            "description": "Pagination configuration",
+            "value": "50"
+        },
+        "SECRET_KEY": {
+            "description": "Like it says, secret key",
+            "value": "not-secret"
+        },
+        "REGISTERS": {
+            "description": "Register type",
+            "value": "register"
+        },
+        "REGISTER_DOMAIN": {
+            "description": "Register domain - override on deploy",
+            "value": "register.dev"
+        }
+    }
+}

@@ -1,8 +1,19 @@
 import os
+import logging
+
+from io import BytesIO
+from zipfile import ZipFile
+from urllib.request import urlopen
+
 from thingstance import Thing
 from thingstance.stores.mongodb import MongoStore
+from application.utils import log_traceback
 
 registers = {}
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler())
 
 
 class Register(Thing):
@@ -45,12 +56,24 @@ class Register(Thing):
                 self._store.put(thing)
 
 
-# TBD: load registers from the register register
-# for name in ['Register',
-#              'Court',
-#              'School',
-#              'Datatype',
-#              'Field',
-#              'Instrument',
-#              'Measurement']:
-#     Register(name, app.config['MONGO_URI'])
+    def load_remote(self, url):
+        lines = []
+        try:
+            result = urlopen(url).read()
+            stream = BytesIO(result)
+            zipfile = ZipFile(stream, 'r')
+            #TODO - handle json and other formats
+            file_names = [name for name in zipfile.namelist() if name.endswith('yaml')]
+
+            for name in file_names:
+                l = [line.decode('utf-8') for line in zipfile.open(name).readlines()]
+                data = ''.join(l)
+                lines.append(data)
+                thing = Thing()
+                thing.yaml = data
+                self._store.put(thing)
+        except Exception as ex:
+            log_traceback(logger, ex)
+
+        return lines
+
