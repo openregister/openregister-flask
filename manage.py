@@ -40,10 +40,10 @@ def deploy(register_name):
 
 def _deploy(register_name, headers):
     url = 'https://api.heroku.com/app-setups'
-    app_name = "%s-openregister-3" % register_name
+    app_name = "%s-openregister" % register_name
     data = { "app": { "name": app_name, "region": "eu"},
             "source_blob": {
-            "url":"https://github.com/ashimali/server-test/tarball/master/" },
+            "url":"https://github.com/openregister/server/tarball/master/" },
             "overrides": {"env": { "REGISTER": register_name }}}
     print('deploying register:', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
@@ -51,10 +51,10 @@ def _deploy(register_name, headers):
 
 
 def _redeploy(register_name, headers):
-    app_name = '%s-openregister-3' % register_name
+    app_name = '%s-openregister' % register_name
     url = 'https://api.heroku.com/apps/%s/builds' % app_name
     data =  {"source_blob": {
-                "url": "https://github.com/ashimali/server-test/archive/master.tar.gz",
+                "url": "https://github.com/openregister/server/archive/master.tar.gz",
                 "version": "v0.1.0"
                 }
     }
@@ -63,7 +63,7 @@ def _redeploy(register_name, headers):
     _check_build_status(resp.json(), url)
 
 def _exists(register_name, headers):
-    app_name = '%s-openregister-3' % register_name
+    app_name = '%s-openregister' % register_name
     url = 'https://api.heroku.com/apps/%s' % app_name
     resp = requests.get(url, headers=headers)
     if resp.status_code == 200:
