@@ -91,7 +91,7 @@ def _deploy(register_name, headers):
     if deployed:
         print('setting domain', register_name+".openregisters.org")
         url = "https://api.heroku.com/apps/%s/domains" % app_name
-        data = {"hostname": register_name+".openregisters.org"}
+        data = {"hostname": register_name+".openregister.org"}
         resp = requests.post(url, json.dumps(data), headers=headers)
         print('result:', resp.json())
 
@@ -121,23 +121,28 @@ def _exists(register_name, headers):
     return resp.status_code == 200
 
 def _check_build_status(build_response, url):
-    build_status = build_response['status']
-    build_id = build_response['id']
+    build_status = build_response.get('status')
+    build_id = build_response.get('id')
+    if not build_status:
+        print("can't check build status for:", build_response)
+        return False
+
     print('build status:', build_status)
     print('build id:', build_id)
+
     if build_status not in ['pending', 'succeeded']:
         print('build error:', build_status, 'message', build['failure_message'])
-        sys.exit(1)
+        return False
 
     check_url = '%s/%s' % (url, build_id)
     print('check_url:', check_url)
     heroku_key = "Bearer %s" % os.environ['HEROKU_KEY']
     headers = {"Content-Type" : "application/json","Accept" : "application/vnd.heroku+json; version=3", "Authorization" : heroku_key}
 
-    #if not confirmed within five mins move on
-    max_poll = 5
+    #if not confirmed within six mins move on
+    max_poll = 3
     while True and max_poll > 0:
-        for i in range(60):
+        for i in range(120):
             print('.', end='', flush=True)
             time.sleep(1)
         print('\nchecking build status')
@@ -156,6 +161,7 @@ def _check_build_status(build_response, url):
                 webbrowser.open(app_url)
             return True
         max_poll -= 1
+    return False
 
 
 if __name__ == '__main__':
