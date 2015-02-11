@@ -47,7 +47,13 @@ def _deploy(register_name, headers):
             "overrides": {"env": { "REGISTERS": register_name, "REGISTER_DOMAIN": "openregister.org"}}}
     print('deploying register:', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
-    _check_build_status(resp.json(), url)
+    deployed = _check_build_status(resp.json(), url)
+    if deployed:
+        print('setting domain', register_name+".openregisters.org")
+        url = "https://api.heroku.com/apps/%s/domains" % app_name
+        data = {"hostname": register_name+".openregisters.org"}
+        resp = requests.post(url, json.dumps(data), headers=headers)
+        print('result:', resp.json())
 
 
 def _redeploy(register_name, headers):
@@ -88,9 +94,10 @@ def _check_build_status(build_response, url):
     heroku_key = "Bearer %s" % os.environ['HEROKU_KEY']
     headers = {"Content-Type" : "application/json","Accept" : "application/vnd.heroku+json; version=3", "Authorization" : heroku_key}
 
-    max_poll = 50
+    #if no confirmed in within five mins move on
+    max_poll = 5
     while True and max_poll > 0:
-        for i in range(30):
+        for i in range(60):
             print('.', end='', flush=True)
             time.sleep(1)
         print('\nchecking build status')
@@ -107,7 +114,7 @@ def _check_build_status(build_response, url):
             if app_url:
                 import webbrowser
                 webbrowser.open(app_url)
-            sys.exit(0)
+            return True
         max_poll -= 1
 
 
