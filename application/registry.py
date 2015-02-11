@@ -1,7 +1,12 @@
 import os
 import logging
+import csv
 
-from io import BytesIO
+from io import (
+    BytesIO,
+    TextIOWrapper
+)
+
 from zipfile import ZipFile
 from urllib.request import urlopen
 
@@ -59,23 +64,32 @@ class Register(Thing):
 
 
     def load_remote(self, url):
-        lines = []
         try:
             result = urlopen(url).read()
             stream = BytesIO(result)
             zipfile = ZipFile(stream, 'r')
+
             #TODO - handle json and other formats
-            file_names = [name for name in zipfile.namelist() if name.endswith('yaml')]
+            file_names = [name for name in zipfile.namelist() if name.endswith('.yaml') or name.endswith('.tsv')]
 
             for name in file_names:
-                l = [line.decode('utf-8') for line in zipfile.open(name).readlines()]
-                data = ''.join(l)
-                lines.append(data)
-                thing = Thing()
-                thing.yaml = data
-                self._store.put(thing)
+                with zipfile.open(name, 'r') as f:
+                    file_contents = TextIOWrapper(f, encoding='utf-8', newline='')
+                    if name.endswith('.yaml'):
+                        thing = Thing()
+                        thing.yaml = file_contents.read()
+                        self._store.put(thing)
+                    elif name.endswith('.tsv'):
+                        reader = csv.DictReader(file_contents, delimiter='\t')
+                        for row in reader:
+                            if len(row.keys()):
+                                thing = Thing()
+                                thing.primitive = row
+                                self._store.put(thing)
+
+                    print('stored', name)
+
+
         except Exception as ex:
             log_traceback(logger, ex)
-
-        return lines
 

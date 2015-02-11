@@ -75,7 +75,6 @@ def load(repo_url):
         registers[register_name] = register
     zip_url = '%s/archive/master.zip' % repo_url
     file_names = register.load_remote(zip_url)
-    print('completed load of files:', file_names)
 
 
 def _deploy(register_name, headers):
@@ -87,7 +86,7 @@ def _deploy(register_name, headers):
             "overrides": {"env": { "REGISTERS": register_name, "REGISTER_DOMAIN": "openregister.org"}}}
     print('deploying register:', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
-    deployed = _check_build_status(resp.json(), url)
+    deployed = _check_build_status(resp.json(), url, headers)
     if deployed:
         print('setting domain', register_name+".openregisters.org")
         url = "https://api.heroku.com/apps/%s/domains" % app_name
@@ -106,7 +105,7 @@ def _redeploy(register_name, headers):
     }
     print('redeploying', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
-    _check_build_status(resp.json(), url)
+    _check_build_status(resp.json(), url, headers)
 
 def _exists(register_name, headers):
     app_name = '%s-openregister' % register_name
@@ -120,7 +119,8 @@ def _exists(register_name, headers):
 
     return resp.status_code == 200
 
-def _check_build_status(build_response, url):
+
+def _check_build_status(build_response, url, headers):
     build_status = build_response.get('status')
     build_id = build_response.get('id')
     if not build_status:
@@ -136,8 +136,6 @@ def _check_build_status(build_response, url):
 
     check_url = '%s/%s' % (url, build_id)
     print('check_url:', check_url)
-    heroku_key = "Bearer %s" % os.environ['HEROKU_KEY']
-    headers = {"Content-Type" : "application/json","Accept" : "application/vnd.heroku+json; version=3", "Authorization" : heroku_key}
 
     #if not confirmed within six mins move on
     max_poll = 3
