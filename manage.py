@@ -44,7 +44,7 @@ def _deploy(register_name, headers):
     data = { "app": { "name": app_name, "region": "eu"},
             "source_blob": {
             "url":"https://github.com/openregister/server/tarball/master/" },
-            "overrides": {"env": { "REGISTER": register_name }}}
+            "overrides": {"env": { "REGISTERS": register_name, "REGISTER_DOMAIN": "openregister.org"}}}
     print('deploying register:', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
     _check_build_status(resp.json(), url)
