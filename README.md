@@ -51,7 +51,7 @@ Deployement will be from master of this repository.
 Run the managment command to deploy an instance of this application to serve a given register name. For example:
 
 ```
-python manage.py deploy -r register
+python manage.py deploy -r registername
 ```
 
 This command can be used to deploy or redeploy. On first deploy it will create a heroku app with the name "registername-openregister.herokuapp.com" and set a domain name for the application of: "registername.openregister.org".
