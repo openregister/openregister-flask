@@ -34,26 +34,28 @@ class Register(Thing):
                 # this belong in representation / thing
 
                 # file of many things ..
-                import csv
-                with open(path) as f:
-                    reader = csv.DictReader(f, delimiter='\t')
-                    for d in reader:
-                        if len(d.keys()):
-                            thing = Thing()
-                            thing.primitive = d
-                            self._store.put(thing)
+                if suffix == ".tsv":
+                    import csv
+                    with open(path) as f:
+                        reader = csv.DictReader(f, delimiter='\t')
+                        for d in reader:
+                            if len(d.keys()):
+                                thing = Thing()
+                                thing.primitive = d
+                                self._store.put(thing)
 
-                # assumes one thing per-file.
-                print("slurping %s" % path)
-                text = open(path).read()
+                else:
+                    # assumes one thing per-file.
+                    print("slurping %s" % path)
+                    text = open(path).read()
 
-                thing = Thing()
-                if suffix == ".yaml":
-                    thing.yaml = text
-                elif suffix == ".json":
-                    thing.json = text
+                    thing = Thing()
+                    if suffix == ".yaml":
+                        thing.yaml = text
+                    elif suffix == ".json":
+                        thing.json = text
 
-                self._store.put(thing)
+                    self._store.put(thing)
 
 
     def load_remote(self, url):
