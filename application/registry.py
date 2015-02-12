@@ -62,19 +62,21 @@ class Register(Thing):
 
                     self._store.put(thing)
 
-
     def load_remote(self, url):
         try:
             result = urlopen(url).read()
             stream = BytesIO(result)
             zipfile = ZipFile(stream, 'r')
 
-            #TODO - handle json and other formats
-            file_names = [name for name in zipfile.namelist() if name.endswith('.yaml') or name.endswith('.tsv')]
+            # TODO - handle json and other formats
+            file_names = [name for name in zipfile.namelist()
+                          if name.endswith('.yaml') or name.endswith('.tsv')]
 
             for name in file_names:
                 with zipfile.open(name, 'r') as f:
-                    file_contents = TextIOWrapper(f, encoding='utf-8', newline='')
+                    file_contents = TextIOWrapper(f,
+                                                  encoding='utf-8',
+                                                  newline='')
                     if name.endswith('.yaml'):
                         thing = Thing()
                         thing.yaml = file_contents.read()
@@ -89,7 +91,5 @@ class Register(Thing):
 
                     print('stored', name)
 
-
         except Exception as ex:
             log_traceback(logger, ex)
-

@@ -18,4 +18,3 @@ from application.views import *  # NOQA
 if not app.debug:
     app.logger.addHandler(logging.StreamHandler())
     app.logger.setLevel(logging.INFO)
-

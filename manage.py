@@ -23,6 +23,7 @@ def load_data(source):
             register = Register(name, app.config['MONGO_URI'])
             register.load(path)
 
+
 @manager.option('-r', '--register-name', dest='register_name')
 def deploy(register_name):
     '''
@@ -43,9 +44,9 @@ def deploy(register_name):
         to set a CNAME pointing to register_name-openregister.herokuapp.com.
     '''
     heroku_key = "Bearer %s" % os.environ['HEROKU_KEY']
-    headers = {"Content-Type" : "application/json",
-                "Accept" : "application/vnd.heroku+json; version=3",
-                "Authorization" : heroku_key}
+    headers = {"Content-Type": "application/json",
+               "Accept": "application/vnd.heroku+json; version=3",
+               "Authorization": heroku_key}
 
     if _exists(register_name, headers):
         _redeploy(register_name, headers)
@@ -66,24 +67,29 @@ def load(repo_url):
         load it into the register. Currently that means loading the data
         into the mongodb for the register.
     '''
-    register_name = repo_url.split('/')[-1].split('.')[0]#ouch
+    register_name = repo_url.split('/')[-1].split('.')[0]  # ouch
     print('register:', register_name)
     print('repository:', repo_url)
     register = registers.get(register_name)
     if not register:
-        register = Register(register_name.capitalize(), app.config['MONGO_URI'])
+        register = Register(register_name.capitalize(),
+                            app.config['MONGO_URI'])
         registers[register_name] = register
     zip_url = '%s/archive/master.zip' % repo_url
-    file_names = register.load_remote(zip_url)
+    register.load_remote(zip_url)
 
 
 def _deploy(register_name, headers):
     url = 'https://api.heroku.com/app-setups'
     app_name = "%s-openregister" % register_name
-    data = { "app": { "name": app_name, "region": "eu"},
-            "source_blob": {
-            "url":"https://github.com/openregister/server/tarball/master/" },
-            "overrides": {"env": { "REGISTERS": register_name, "REGISTER_DOMAIN": "openregister.org"}}}
+    data = {"app": {"name": app_name, "region": "eu"},
+            "source_blob":
+            {"url": "https://github.com/openregister/server/tarball/master/"},
+            "overrides": {"env": {
+                "REGISTERS": register_name,
+                "REGISTER_DOMAIN": "openregister.org"
+                }}
+            }
     print('deploying register:', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
     deployed = _check_build_status(resp.json(), url, headers)
@@ -98,14 +104,15 @@ def _deploy(register_name, headers):
 def _redeploy(register_name, headers):
     app_name = '%s-openregister' % register_name
     url = 'https://api.heroku.com/apps/%s/builds' % app_name
-    data =  {"source_blob": {
-                "url": "https://github.com/openregister/server/archive/master.tar.gz",
-                "version": "v0.1.0"
-                }
-    }
+    data = {"source_blob":
+            {"url":
+                "https://github.com/openregister/server/archive/master.tar.gz",
+             "version": "v0.1.0"}
+            }
     print('redeploying', app_name)
     resp = requests.post(url, data=json.dumps(data), headers=headers)
     _check_build_status(resp.json(), url, headers)
+
 
 def _exists(register_name, headers):
     app_name = '%s-openregister' % register_name
@@ -131,13 +138,16 @@ def _check_build_status(build_response, url, headers):
     print('build id:', build_id)
 
     if build_status not in ['pending', 'succeeded']:
-        print('build error:', build_status, 'message', build['failure_message'])
+        print('build error:',
+              build_status,
+              'message',
+              build['failure_message'])
         return False
 
     check_url = '%s/%s' % (url, build_id)
     print('check_url:', check_url)
 
-    #if not confirmed within six mins move on
+    # if not confirmed within six mins move on
     max_poll = 3
     while True and max_poll > 0:
         for i in range(120):
