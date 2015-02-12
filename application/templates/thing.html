@@ -9,28 +9,22 @@
 
       <h1>{{ thing["name"] }}</h1>
 
-      <p>An entry in the <a href="/">{{ thing["register"] }} Register</a>.</p>
+      <p>An entry in the <a href="/">{{ register.name }} Register</a>.</p>
 
       <h2>View fields</h2>
 
       <div class="panel thing">
         <dl>
-
-            <dt class="{{ name }}"><a href="http://field.thingstance.dev/name/{{ name }}">name</a></dt>
-            <dd class="{{ name }}">{{ thing["name"] }}</dd>
-
-          {% for field in thing | sort %}
-            {% if field != 'name' and field != 'register' %}
-              <dt class="{{ field }}"><a href="http://field.thingstance.dev/name/{{ field }}">{{ field }}</a></dt>
-              <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
-            {% endif %}
+          {% for field in thing %}
+          <dt class="{{ field }}">{{ field|datatype("field") }}</dt>
+          <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
           {% endfor %}
 
-          <dt class="hash"><a href="http://field.thingstance.dev/name/hash">last update</a></dt>
+          <dt class="hash">{{ "hash"|datatype("field") }}</dt>
           <dd class="hash">{{ hash|datatype("hash") }}</dd>
 
-          <dt class="{{ name }}"><a href='http://register.thingstance.dev/name/{{ thing["register"] }}'>register</a></dt>
-          <dd class="{{ name }}"><a href="/">{{ thing["register"] }}</a></dd>
+          <dt class="register">{{ "register"|datatype("field") }}</dt>
+          <dd class="register">{{ thing["register"]|datatype("register") }}</dd>
 
         </dl>
       </div> <!-- /.thing -->

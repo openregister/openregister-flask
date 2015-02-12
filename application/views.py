@@ -9,17 +9,15 @@ from flask import (
     flash,
     current_app
 )
-
+from markdown import markdown
 from application import app, db
 from .registry import registers, Register
 from thingstance.representations import representations as _representations
 
 
-# TBD: register url should be constructed from the register object ..
-def register_filter(register):
-    result = ('<a href="http://%s.register.dev"'
-              ' class="register">%s</a>' % (register, register))
-    return Markup(result)
+def link(register, field, value):
+    return Markup('<a href="http://%s.%s/%s/%s">%s</a>'
+                  % (register, app.config['REGISTER_DOMAIN'], field, value, value))
 
 
 # TBD: should be a register of filters for a Field/Datatype ..
@@ -27,16 +25,16 @@ def register_filter(register):
 def datatype_filter(value, fieldname):
     if fieldname == "sameAs":
         return Markup('<a href="%s">%s</a>' % (value, value))
-    if fieldname == "address":
-        return Markup('<a href="http://address.%s/hash/%s">%s</a>'
-                      % (app.config['REGISTER_DOMAIN'], value, value))
-    if fieldname == "addressCountry":
-        return Markup('<a href="http://country.%s/name/%s">%s</a>'
-                      % (app.config['REGISTER_DOMAIN'], value, value))
-    if fieldname == "register":
-        return register_filter(value)
-    elif fieldname == "hash":
+    if fieldname == "hash":
         return Markup('<a href="/hash/%s">%s</a>' % (value, value))
+    if fieldname == "address":
+        return link("address", "hash", value)
+    if fieldname == "field":
+        return link("field", "name", value)
+    if fieldname == "addressCountry":
+        return link("country", "addressCountry", value)
+    if fieldname == "register":
+        return link("register", "name", value)
     return value
 
 
@@ -95,9 +93,14 @@ def things():
     return find_things("Thing", query={}, page=int(request.args.get('page', 1)))
 
 
-@app.route("/name/<name>")
-def find_latest_thing_by_name(name):
-    return find_latest_thing(query={"name": name})
+@app.route("/name/<value>")
+def find_latest_thing_by_name(value):
+    return find_latest_thing(query={"name": value})
+
+
+@app.route("/addressCountry/<value>")
+def find_latest_thing_by_addressCountry(value):
+    return find_latest_thing(query={"addressCountry": value})
 
 
 def find_latest_thing(query={}, suffix="html"):
@@ -120,11 +123,11 @@ def find_things(tag, query={}, suffix="html", page=None):
     thing_keys = []
     if things_list:
         thing_keys = [field for field in things_list[0][1]]
-        if 'register' in thing_keys:
-            thing_keys.remove('register')
-        if 'name' in thing_keys:
-            thing_keys.remove('name')
+        # TBD: order by field names in the register
         thing_keys.sort()
+        if "name" in thing_keys:
+            thing_keys.remove("name")
+            thing_keys = ["name"] + thing_keys
     if suffix == "html":
         return render_template("things.html",
                                register=register.primitive,
