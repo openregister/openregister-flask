@@ -3,21 +3,17 @@ from flask import (
     request,
     make_response,
     Markup,
-    redirect,
-    url_for,
     abort,
-    flash,
     current_app
 )
-from markdown import markdown
 from application import app, db
 from .registry import registers, Register
 from thingstance.representations import representations as _representations
 
 
 def link(register, field, value):
-    return Markup('<a href="http://%s.%s/%s/%s">%s</a>'
-                  % (register, app.config['REGISTER_DOMAIN'], field, value, value))
+    return ('<a href="http://%s.%s/%s/%s">%s</a>'
+            % (register, app.config['REGISTER_DOMAIN'], field, value, value))
 
 
 # TBD: should be a register of filters for a Field/Datatype ..
@@ -28,13 +24,15 @@ def datatype_filter(value, fieldname):
     if fieldname == "hash":
         return Markup('<a href="/hash/%s">%s</a>' % (value, value))
     if fieldname == "address":
-        return link("address", "hash", value)
+        return Markup(link("address", "hash", value))
     if fieldname == "field":
-        return link("field", "name", value)
+        return Markup(link("field", "name", value))
     if fieldname == "addressCountry":
-        return link("country", "addressCountry", value)
+        return Markup(link("country", "addressCountry", value))
     if fieldname == "register":
-        return link("register", "name", value)
+        return Markup(link("register", "name", value))
+    if fieldname == "fields":
+        return Markup([link('field', 'name', v) for v in value])
     return value
 
 
@@ -90,7 +88,9 @@ def thing_by_hash_suffix(hash, suffix="html"):
 
 @app.route("/")
 def things():
-    return find_things("Thing", query={}, page=int(request.args.get('page', 1)))
+    return find_things("Thing",
+                       query={},
+                       page=int(request.args.get('page', 1)))
 
 
 @app.route("/name/<value>")
@@ -142,5 +142,6 @@ def find_or_initalise_register(register_name):
         collections = db.collection_names()
         if register_name not in collections:
             return abort(404)
-        registers[register_name] = Register(register_name, current_app.config['MONGO_URI'])
+        registers[register_name] = Register(register_name,
+                                            current_app.config['MONGO_URI'])
     return registers.get(register_name)
