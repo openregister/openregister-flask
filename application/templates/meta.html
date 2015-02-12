@@ -1,6 +1,9 @@
 <div class="meta">
 <span id="visible-records">Total entries: {{meta.total}}. Page {{ meta.page}}</span> of <span id="total">{{ meta.pages}}</span>
-{% if meta.page < meta.pages %}
-    <a href="{{url_for('things', page=meta.page+1)}}">next</a>
-{% endif %}
+    {% if meta.page > 1 %}
+        <a href="{{url_for('things', page=meta.page-1)}}">back</a>
+    {% endif %}
+    {% if meta.page < meta.pages %}
+        <a href="{{url_for('things', page=meta.page+1)}}">next</a>
+    {% endif %}
 </div>
