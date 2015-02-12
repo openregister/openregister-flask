@@ -10,7 +10,7 @@ from flask import (
     current_app
 )
 
-from application import app
+from application import app, db
 from .registry import registers, Register
 from thingstance.representations import representations as _representations
 
@@ -132,10 +132,9 @@ def find_things(tag, query={}, suffix="html"):
 
 
 def find_or_initalise_register(register_name):
-    #TODO have another look at this
-    if register_name not in current_app.config['REGISTERS']:
-        return abort(404)
-    register = registers.get(register_name)
-    if not register:
+    if not registers.get(register_name):
+        collections = db.collection_names()
+        if register_name not in collections:
+            return abort(404)
         registers[register_name] = Register(register_name, current_app.config['MONGO_URI'])
     return registers.get(register_name)

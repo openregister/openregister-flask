@@ -6,5 +6,3 @@ export PAGE_SIZE=50
 export PORT=8000
 export SECRET_KEY='not-secret'
 export HEROKU_KEY=`heroku auth:token`
-# in local dev multiple registers in same app
-export REGISTERS='register,field,datatype'
