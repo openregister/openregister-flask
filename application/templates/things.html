@@ -1,6 +1,6 @@
 {% extends "registerbase.html" %}
-{% block title %}{{ register.name }} Register{% endblock %}
-{% block header_title %}{{ register.name }} Register{% endblock %}
+{% block title %}{{ register.name|capitalize }} Register{% endblock %}
+{% block header_title %}{{ register.name|capitalize }} Register{% endblock %}
 
 {% block content %}
 
@@ -11,7 +11,7 @@
         <div class="row intro">
 
           <div class="medium-9 small-12 columns">
-            <h1>{{ register.name }} Register</h1>
+            <h1>{{ register.name|capitalize }} Register</h1>
             <p>A register of {{ register.name }} entries.</p>
           </div>
 

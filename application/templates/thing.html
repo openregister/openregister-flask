@@ -1,6 +1,6 @@
 {% extends "registerbase.html" %}
-{% block title %}{{ register.name }}{% endblock %}
-{% block header_title %}{{ register.name}} Register{% endblock %}
+{% block title %}{{ register.name|capitalize }}{% endblock %}
+{% block header_title %}{{ register.name|capitalize }} Register{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -9,7 +9,7 @@
 
       <h1>{{ thing["name"] }}</h1>
 
-      <p>An entry in the <a href="/">{{ register.name }} Register</a>.</p>
+      <p>An entry in the <a href="/">{{ register.name }} register</a>.</p>
 
       <h2>View fields</h2>
 
