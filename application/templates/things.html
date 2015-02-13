@@ -16,7 +16,7 @@
           </div>
 
           <div class="medium-3 small-12 columns metadata">
-            <span class="big-number">{{ meta.total }}</span>
+            <span class="big-number">{{ meta.total | thousands_comma }}</span>
             <h4 class="subheader"><small>Total entries</small></h4>
           </div>
 
@@ -101,7 +101,7 @@
     var itemList = new List('entries', options);
     itemList.on('updated', function() {
       var s = document.getElementById('visible-records');
-      s.innerHTML = itemList.visibleItems.length;
+      s.innerHTML = itemList.visibleItems.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     });
 
   })();
