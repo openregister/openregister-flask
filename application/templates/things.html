@@ -26,10 +26,12 @@
 
         <div class="panel thing" id="entries">
 
+        {% if meta.pages == 1 %}
         <div class="search">
           Filter entries:
           <input id="search-input" placeholder="search" />
         </div>
+        {% endif %}
 
         <div id="table-outer">
 
@@ -38,7 +40,11 @@
             <thead>
               <tr>
               {% for key in thing_keys %}
-                <th>{{ key | datatype("field")}} <span class="sort" data-sort="{{ key }}">sort</span></td>
+                <th>{{ key | datatype("field")}}
+                  {% if meta.pages == 1 %}
+                  <span class="sort" data-sort="{{ key }}">sort</span>
+                  {% endif %}
+                </th>
               {% endfor %}
               </tr>
               </tr>
