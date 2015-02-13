@@ -19,20 +19,29 @@ def link(register, field, value):
 # TBD: should be a register of filters for a Field/Datatype ..
 @app.template_filter('datatype')
 def datatype_filter(value, fieldname):
+
+    # datatypes
     if fieldname == "sameAs":
         return Markup('<a href="%s">%s</a>' % (value, value))
     if fieldname == "hash":
         return Markup('<a href="/hash/%s">%s</a>' % (value, value))
+    if fieldname == "name":
+        return Markup('<a href="/name/%s">%s</a>' % (value, value))
+
+    # link by hash
     if fieldname == "address":
         return Markup(link("address", "hash", value))
-    if fieldname == "field":
-        return Markup(link("field", "name", value))
+
+    # link by name
     if fieldname == "addressCountry":
         return Markup(link("country", "addressCountry", value))
     if fieldname == "register":
-        return Markup(link("register", "name", value))
+        return Markup(link("register", "register", value))
+    if fieldname == "field":
+        return Markup(link("field", "field", value))
     if fieldname == "fields":
-        return Markup([link('field', 'name', v) for v in value])
+        return Markup([link('field', 'field', v) for v in value])
+
     return value
 
 
@@ -93,14 +102,9 @@ def things():
                        page=int(request.args.get('page', 1)))
 
 
-@app.route("/name/<value>")
-def find_latest_thing_by_name(value):
-    return find_latest_thing(query={"name": value})
-
-
-@app.route("/addressCountry/<value>")
-def find_latest_thing_by_addressCountry(value):
-    return find_latest_thing(query={"addressCountry": value})
+@app.route("/<key>/<value>")
+def find_latest_thing_by_addressCountry(key, value):
+    return find_latest_thing(query={key: value})
 
 
 def find_latest_thing(query={}, suffix="html"):
