@@ -45,6 +45,13 @@ def datatype_filter(value, fieldname):
     return value
 
 
+@app.template_filter('thousands_comma')
+def thousands_comma_filter(value):
+    if value:
+        return "{:,d}".format(value)
+    return value
+
+
 # TBD: push this into thingstance.representations ..
 representations = {}
 for representation in _representations:

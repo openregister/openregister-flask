@@ -1,10 +1,15 @@
 <div class="meta">
-Showing <span id="visible-records">{{meta.total}}</span> of {{meta.total}} entries.
-Page {{ meta.page}} of <span id="total">{{ meta.pages}}</span>
-	{% if meta.page > 1 %}
-	  <a href="{{url_for('things', page=meta.page-1)}}">back</a>
-	{% endif %}
-	{% if meta.page < meta.pages %}
-	  <a href="{{url_for('things', page=meta.page+1)}}">next</a>
-	{% endif %}
+Showing <span id="visible-records">{{ meta.total | thousands_comma }}</span>
+of {{ meta.total | thousands_comma }} entries.
+
+Page {{ meta.page | thousands_comma }}
+of <span id="total">{{ meta.pages | thousands_comma }}</span>
+
+{% if meta.page > 1 %}
+  <a href="{{url_for('things', page=meta.page-1)}}">back</a>
+{% endif %}
+{% if meta.page < meta.pages %}
+  <a href="{{url_for('things', page=meta.page+1)}}">next</a>
+{% endif %}
+
 </div>
