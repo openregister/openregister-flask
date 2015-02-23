@@ -1,15 +1,20 @@
 <div class="meta">
-Showing <span id="visible-records">{{ meta.total | thousands_comma }}</span>
-of {{ meta.total | thousands_comma }} entries.
-
-Page {{ meta.page | thousands_comma }}
-of <span id="total">{{ meta.pages | thousands_comma }}</span>
+<!--
+  Showing <span id="visible-records">{{ meta.total | thousands_comma }}</span>
+  of {{ meta.total | thousands_comma }} entries.
+-->
 
 {% if meta.page > 1 %}
-  <a href="{{url_for('things', page=meta.page-1)}}">back</a>
+  <a rel="prev" href="{{url_for('things', page=meta.page-1)}}">Prev</a>
 {% endif %}
+
+<span class="pageno">
+  Page {{ meta.page | thousands_comma }}
+  of <span id="total">{{ meta.pages | thousands_comma }}</span>
+</span>
+
 {% if meta.page < meta.pages %}
-  <a href="{{url_for('things', page=meta.page+1)}}">next</a>
+  <a rel="next" href="{{url_for('things', page=meta.page+1)}}">Next</a>
 {% endif %}
 
 </div>

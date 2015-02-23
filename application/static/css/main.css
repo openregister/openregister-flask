@@ -220,6 +220,26 @@ table.things td {
   font-size: 1rem;
 }
 
+/* meta */
+.meta {
+  width: 100%;
+}
+.meta a[rel=prev] {
+  display: block;
+  float: left;
+  text-align: left;
+}
+
+.meta a[rel=next] {
+  display: block;
+  float: right;
+  text-align: right;
+}
+
+.meta .pageno {
+  padding-left: 10em;
+}
+
 /* responsive styles */
 @media only screen and (max-width: 40em) {
   .intro p {
