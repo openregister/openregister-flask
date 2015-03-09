@@ -4,11 +4,15 @@ from flask import (
     make_response,
     Markup,
     abort,
-    current_app
+    current_app,
+    flash,
+    redirect,
+    url_for
 )
 from application import app, db
 from .registry import registers, Register
 from thingstance.representations import representations as _representations
+from .utils import log_traceback
 
 
 def link(register, field, value):
@@ -107,6 +111,33 @@ def things():
     return find_things("Thing",
                        query={},
                        page=int(request.args.get('page', 1)))
+
+# TODO - protect urls like this
+@app.route("/load-data")
+def load_data():
+    '''
+        This loads datat for a register repository
+        e.g. https://github.com/openregister/registername.register.
+
+        It will then load the data contained in the repository and
+        load it into the register. Currently that means loading the data
+        into the mongodb for the register.
+    '''
+    register_name = subdomain(request)
+    register = registers.get(register_name)
+    try:
+        if not register:
+            register = Register(register_name.capitalize(),
+                                current_app.config['MONGO_URI'])
+            registers[register_name] = register
+        zip_url = '%s/%s.register/archive/master.zip' % (current_app.config['GITHUB_ORG'], register_name)
+        register.load_remote(zip_url)
+        flash('Loaded data into register')
+    except Exception as ex:
+        log_traceback(current_app.logger, ex)
+        flash('Problem loading data into register', 'error')
+
+    return redirect(url_for('things'))
 
 
 @app.route("/<key>/<value>")
