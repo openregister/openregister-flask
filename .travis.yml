@@ -1,22 +1,19 @@
 language: python
 python:
-- '3.4'
+  - "3.4"
 install:
-- pip install -r requirements.txt --allow-external thingstance
-- pip install -r requirements_test.txt
-- pip install python-coveralls
+  - "pip install -r requirements.txt --allow-external thingstance"
+  - "pip install -r requirements_test.txt"
+  - "pip install python-coveralls"
 services:
-- mongodb
+  - mongodb
+script:
+  - make flake8
+  - make test
+  - make coveralls
+after_success:
+  - coveralls --ignore-errors
 script:
 - source ./environment.sh
-after_success:
-- coveralls --ignore-errors
-deploy:
-  provider: heroku
-  api_key:
-    secure: ypPob8vmYWY9rnLsmteA+gr4FGTeiXDRjKGjcVNDgHZvzamOCAxRRHfI2pjaMrJWq7x2EgSrQ283oUitxaXDzcRRAmA+4zxZmIXZymFrTbEbG+QN/C8MKi7QeIQOM2FsX4NRocYEE1JYDys5MBMosIsG/tzQiutHXz6Ll8CF6PY=
-  app:
-    master: field-openregister
-    master: datatype-openregister
-  on:
-    repo: openregister/server
+notifications:
+  webhooks: https://deployer-openregister.herokuapp.com/deploy-register
