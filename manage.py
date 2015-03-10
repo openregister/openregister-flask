@@ -16,7 +16,7 @@ manager = Manager(app)
 
 
 @manager.option('-s', '--source', dest='source')
-def load_data(source):
+def load_local_data(source):
     for name in os.listdir(source):
         path = os.path.join(source, name)
         if os.path.isdir(path):
@@ -55,7 +55,7 @@ def deploy(register_name):
 
 
 @manager.option('-r', '--repo-url', dest='repo_url')
-def load(repo_url):
+def load_remote_data(repo_url):
     '''
         Takes a url for a register repository
         e.g. https://github.com/openregister/registername.register.
