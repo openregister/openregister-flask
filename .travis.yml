@@ -16,4 +16,9 @@ after_success:
 script:
 - source ./environment.sh
 notifications:
-  webhooks: https://deployer-openregister.herokuapp.com/deploy-registers
+  webhooks:
+    urls:
+      - https://deployer-openregister.herokuapp.com/deploy-register/field
+      - https://deployer-openregister.herokuapp.com/deploy-register/datatype
+      - https://deployer-openregister.herokuapp.com/deploy-register/country
+    on_failure: never
