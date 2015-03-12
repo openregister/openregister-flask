@@ -4,6 +4,10 @@ https://travis-ci.org/openregister/server.svg?branch=master
 
 [![Build Status](https://travis-ci.org/openregister/server.svg)](https://travis-ci.org/openregister/server) [![Coverage Status](https://coveralls.io/repos/thingstance/thingstance.org/badge.svg)](https://coveralls.io/r/thingstance/thingstance.org)
 
+Pre-requisites
+--------------
+Local running mongodb
+
 Setting up
 ----------
 
