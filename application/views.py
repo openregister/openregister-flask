@@ -112,11 +112,17 @@ def things():
                        query={},
                        page=int(request.args.get('page', 1)))
 
+@app.route("/search")
+def search():
+    #fake data for now
+    register_name = {'name' : subdomain(request)}
+    return render_template('search.html', register=register_name)
+
 # TODO - protect urls like this
 @app.route("/load-data")
 def load_data():
     '''
-        This loads datat for a register repository
+        This loads data for a register repository
         e.g. https://github.com/openregister/registername.register.
 
         It will then load the data contained in the repository and
