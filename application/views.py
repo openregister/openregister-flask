@@ -9,6 +9,7 @@ from flask import (
     redirect,
     url_for
 )
+
 from application import app, db
 from .registry import registers, Register
 from thingstance.representations import representations as _representations
@@ -137,7 +138,7 @@ def load_data():
         log_traceback(current_app.logger, ex)
         flash('Problem loading data into register', 'error')
 
-    return redirect(url_for('things'))
+    return redirect(url_for('things', _external=True))
 
 
 @app.route("/<key>/<value>")
