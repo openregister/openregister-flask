@@ -11,5 +11,8 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
 
+class DockerConfig(DevelopmentConfig):
+    MONGO_URI = 'mongodb://%s:27017/thingstance' % os.environ.get('DB_PORT_27017_TCP_ADDR')
+
 class TestConfig(DevelopmentConfig):
     TESTING = True
