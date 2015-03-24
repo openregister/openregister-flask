@@ -1,0 +1,15 @@
+-r prod.txt
+
+cov-core
+coverage
+flake8
+mccabe
+pep8
+py
+pyflakes
+pytest
+pytest-cov
+python-coveralls
+sh
+six
+tempdir
