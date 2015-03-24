@@ -12,6 +12,8 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 class DockerConfig(DevelopmentConfig):
+    # this is not a good idea as linked container may not be
+    # up yet and therefore DB_PORT_27017_TCP_ADDR not yet set
     MONGO_URI = 'mongodb://%s:27017/thingstance' % os.environ.get('DB_PORT_27017_TCP_ADDR')
 
 class TestConfig(DevelopmentConfig):

@@ -18,14 +18,13 @@ dist:
 	python3 setup.py sdist upload
 
 init:
-	pip3 install -r requirements.txt
-	pip3 install -r requirements_test.txt
+	pip3 install -r requirements/dev.txt
 
 load:
 	manage.py load_data -s data
 
 upgrade:
-	pip3 install --upgrade -r requirements.txt
+	pip3 install --upgrade -r requirements/dev.txt
 
 clean:
 	-find . -name "*.pyc" | xargs rm -f
