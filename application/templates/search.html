@@ -1,0 +1,48 @@
+{% extends "registerbase.html" %}
+{% block title %}{{ register.name|capitalize }} Register{% endblock %}
+{% block header_title %}{{ register.name|capitalize }} Register{% endblock %}
+
+{% block content %}
+
+   <div class="row intro">
+          <div class="small-12 medium-6 large-6 columns">
+            <h1>The {{ register.name|capitalize }} Register is the official register of {{ register.name }} entries throughout the UK.</h1>
+
+            <p>Part of: <a href="#">[link to]</a> registry</p>
+          </div> <!-- ./columns -->
+
+          <div class="small-12 medium-3 large-3  columns metadata">
+            <p class="total">Total entries:</p>
+            <span class="big-number">{{ 200 | thousands_comma }}</span>
+          </div> <!-- ./columns -->
+  </div><!-- ./row -->
+
+  <div class="row search-panel">
+    <div class="small-12 large-12 columns">
+       <div class="panel">
+          <div class="row">
+            <div id="" class="small-12 medium-6 large-6 columns">
+              <h4>Search this register</h4>
+              <p>For example 'GB'</p>
+            </div>
+          </div> <!-- ./row -->
+
+            <div class="row">
+              <div class="large-9 columns">
+                <div class="row collapse">
+                  <div class="small-10 columns">
+                    <input type="text" placeholder="Enter search term">
+                  </div>
+                  <div class="small-2 columns">
+                    <a href="#" class="button postfix">Go</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> <!-- ./panel -->
+    </div> <!-- ./columns -->
+  </div> <!-- ./row -->
+
+  {% include "licence.html" %}
+
+{% endblock %}

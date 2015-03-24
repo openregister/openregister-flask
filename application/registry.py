@@ -91,5 +91,6 @@ class Register(Thing):
 
                     print('stored', name)
 
+
         except Exception as ex:
             log_traceback(logger, ex)
