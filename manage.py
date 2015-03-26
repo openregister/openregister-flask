@@ -141,7 +141,7 @@ def _check_build_status(build_response, url, headers):
         print('build error:',
               build_status,
               'message',
-              build['failure_message'])
+              build_status['failure_message'])
         return False
 
     check_url = '%s/%s' % (url, build_id)

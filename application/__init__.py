@@ -1,6 +1,5 @@
 import os
 import logging
-import time
 
 from flask import Flask
 

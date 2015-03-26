@@ -4,7 +4,7 @@ cov-core
 coverage
 flake8
 mccabe
-pep8
+pep8==1.5.7
 py
 pyflakes
 pytest

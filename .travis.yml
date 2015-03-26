@@ -8,6 +8,9 @@ services:
  - mongodb
 script:
  - source ./environment.sh
+ - make flake8
+ - make test
+ - make coveralls
 after_success:
  - coveralls --ignore-errors
 deploy:

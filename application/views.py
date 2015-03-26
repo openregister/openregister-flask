@@ -113,11 +113,13 @@ def things():
                        query={},
                        page=int(request.args.get('page', 1)))
 
+
 @app.route("/search")
 def search():
-    #fake data for now
-    register_name = {'name' : subdomain(request)}
+    # fake data for now
+    register_name = {'name': subdomain(request)}
     return render_template('search.html', register=register_name)
+
 
 # TODO - protect urls like this
 @app.route("/load-data")
@@ -137,7 +139,8 @@ def load_data():
             register = Register(register_name.capitalize(),
                                 current_app.config['MONGO_URI'])
             registers[register_name] = register
-        zip_url = '%s/%s.register/archive/master.zip' % (current_app.config['GITHUB_ORG'], register_name)
+        zip_url = '%s/%s.register/archive/master.zip' % \
+                  (current_app.config['GITHUB_ORG'], register_name)
         register.load_remote(zip_url)
         flash('Loaded data into register')
     except Exception as ex:
