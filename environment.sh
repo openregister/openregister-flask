@@ -1,3 +1,4 @@
+#!/bin/sh
 export MODE='dev'
 export SETTINGS='config.DockerConfig'
 export REGISTER_DOMAIN='register.dev'
