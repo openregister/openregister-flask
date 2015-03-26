@@ -1,7 +1,7 @@
 #!/bin/sh
 export MODE='dev'
-export SETTINGS='config.DockerConfig'
-export REGISTER_DOMAIN='register.dev'
+export SETTINGS='config.Config'
+export REGISTER_DOMAIN='openregister.dev'
 export BASE_URL='http://'$REGISTER_DOMAIN
 export MONGO_URI='mongodb://127.0.0.1:27017/thingstance'
 export PAGE_SIZE='50'
