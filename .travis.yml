@@ -10,15 +10,10 @@ script:
 - source ./environment.sh
 after_success:
 - coveralls --ignore-errors
-deploy:
-  - provider: heroku
-      api_key:
-        secure: eSYw1flDzVAq0gpbEaIXJY6ZdgLQIA8FflZFpbVddut5fKPXTi+j7td7gNIf/wo1uPB6uCrhvG1cxLYhuz9N3E6M2m4x5qXIAbdsDZ4sY2paABdQGY0cwmTAkdmb5NSYKzPj4YfBYp7oodjVknwbgSI4+ri8hg36wNQklclfic4=
-      app:
-        master: country-openregister
-
-  - provider: heroku
-      api_key:
-        secure: eSYw1flDzVAq0gpbEaIXJY6ZdgLQIA8FflZFpbVddut5fKPXTi+j7td7gNIf/wo1uPB6uCrhvG1cxLYhuz9N3E6M2m4x5qXIAbdsDZ4sY2paABdQGY0cwmTAkdmb5NSYKzPj4YfBYp7oodjVknwbgSI4+ri8hg36wNQklclfic4=
-      app:
-        master: field-openregister
+notifications:
+  webhooks:
+    urls:
+    - https://deployer-openregister.herokuapp.com/deploy-register/field
+    - https://deployer-openregister.herokuapp.com/deploy-register/datatype
+    - https://deployer-openregister.herokuapp.com/deploy-register/country
+    on_failure: never
