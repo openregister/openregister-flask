@@ -7,10 +7,10 @@ install:
 services:
  - mongodb
 script:
+ - source ./environment.sh
  - make flake8
  - make test
  - make coveralls
- - source ./environment.sh
 after_success:
  - coveralls --ignore-errors
 deploy:
