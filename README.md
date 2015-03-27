@@ -1,7 +1,5 @@
 Code for http://openregister.org
 
-https://travis-ci.org/openregister/openregister.svg?branch=master
-
 [![Build Status](https://travis-ci.org/openregister/openregister.svg)](https://travis-ci.org/openregister/openregister) [![Coverage Status](https://coveralls.io/repos/openregister/entry.org/badge.svg)](https://coveralls.io/r/openregister/entry.org)
 
 Pre-requisites
