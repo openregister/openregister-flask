@@ -1,6 +1,6 @@
 Code for http://openregister.org
 
-[![Build Status](https://travis-ci.org/openregister/openregister.svg)](https://travis-ci.org/openregister/openregister) [![Coverage Status](https://coveralls.io/repos/openregister/entry.org/badge.svg)](https://coveralls.io/r/openregister/entry.org)
+[![Build Status](https://travis-ci.org/openregister/openregister.svg)](https://travis-ci.org/openregister/openregister) [![Coverage Status](https://coveralls.io/repos/openregister/openregister/badge.svg)](https://coveralls.io/r/openregister/openregister)
 
 Pre-requisites
 --------------
