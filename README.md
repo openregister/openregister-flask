@@ -1,8 +1,8 @@
-Code for http://thingstance.org
+Code for http://openregister.org
 
-https://travis-ci.org/openregister/server.svg?branch=master
+https://travis-ci.org/openregister/openregister.svg?branch=master
 
-[![Build Status](https://travis-ci.org/openregister/server.svg)](https://travis-ci.org/openregister/server) [![Coverage Status](https://coveralls.io/repos/thingstance/thingstance.org/badge.svg)](https://coveralls.io/r/thingstance/thingstance.org)
+[![Build Status](https://travis-ci.org/openregister/openregister.svg)](https://travis-ci.org/openregister/openregister) [![Coverage Status](https://coveralls.io/repos/openregister/entry.org/badge.svg)](https://coveralls.io/r/openregister/entry.org)
 
 Pre-requisites
 --------------
@@ -11,10 +11,10 @@ Local running mongodb
 Setting up
 ----------
 
-Create and activate a virtualenv called e.g. `thingstance.org`:
+Create and activate a virtualenv called e.g. `openregister.org`:
 
-    virtualenv -p python3 thingstance.org
-    source thingstance.org/bin/activate
+    virtualenv -p python3 openregister.org
+    source openregister.org/bin/activate
 
 Install requirements:
 
@@ -34,7 +34,7 @@ Run tests:
 
 Add the following line to your hosts file on your host machine (you may want to edit this to add new registries):
 
-    0.0.0.0 register.thingstance.dev field.thingstance.dev tag.thingstance.dev datatype.thingstance.dev education.thingstance.dev
+    0.0.0.0 register.openregister.dev field.openregister.dev tag.openregister.dev datatype.openregister.dev education.openregister.dev
 
 Alternatively setup DNS on your machine to resolve \*.dev to localhost using something like [DNSMasq](http://www.toddandrae.com/?p=111)
 
@@ -42,7 +42,7 @@ Run the app:
 
     ./run_dev.sh
 
-You should now be able to open e.g. http://field.thingstance.dev:8000/ in a browser.
+You should now be able to open e.g. http://field.openregister.dev:8000/ in a browser.
 
 
 Deploying

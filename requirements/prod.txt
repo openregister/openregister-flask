@@ -10,4 +10,4 @@ pymongo==2.7.2
 PyYAML==3.11
 Flask-WTF==0.11
 requests==2.5.1
-git+https://github.com/thingstance/thingstance#egg=thingstance
+git+https://github.com/openregister/entry.git#egg=entry

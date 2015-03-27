@@ -10,8 +10,8 @@ from io import (
 from zipfile import ZipFile
 from urllib.request import urlopen
 
-from thingstance import Thing
-from thingstance.stores.mongodb import MongoStore
+from entry import Entry
+from entry.stores.mongodb import MongoStore
 from application.utils import log_traceback
 
 registers = {}
@@ -21,14 +21,14 @@ logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler())
 
 
-class Register(Thing):
+class Register(Entry):
     def __init__(self, name, mongo_uri, *args, **kwargs):
         collection = name.lower()
         self._store = MongoStore(mongo_uri, collection=collection)
         registers[collection] = self
-        Thing.__init__(self, name=name, *args, **kwargs)
+        Entry.__init__(self, name=name, *args, **kwargs)
 
-    # TBD: move to thingstance store / representations
+    # TBD: move to entry store / representations
     def load(self, path):
         for root, dirs, files in os.walk(path):
             for file in files:
@@ -36,31 +36,31 @@ class Register(Thing):
                 path = os.path.join(root, file)
                 suffix = os.path.splitext(path)[1]
 
-                # this belong in representation / thing
+                # this belong in representation / entry
 
-                # file of many things ..
+                # file of many entries ..
                 if suffix == ".tsv":
                     import csv
                     with open(path) as f:
                         reader = csv.DictReader(f, delimiter='\t')
                         for d in reader:
                             if len(d.keys()):
-                                thing = Thing()
-                                thing.primitive = d
-                                self._store.put(thing)
+                                entry = Entry()
+                                entry.primitive = d
+                                self._store.put(entry)
 
                 else:
-                    # assumes one thing per-file.
+                    # assumes one entry per-file.
                     print("slurping %s" % path)
                     text = open(path).read()
 
-                    thing = Thing()
+                    entry = Entry()
                     if suffix == ".yaml":
-                        thing.yaml = text
+                        entry.yaml = text
                     elif suffix == ".json":
-                        thing.json = text
+                        entry.json = text
 
-                    self._store.put(thing)
+                    self._store.put(entry)
 
     def load_remote(self, url):
         try:
@@ -78,16 +78,16 @@ class Register(Thing):
                                                   encoding='utf-8',
                                                   newline='')
                     if name.endswith('.yaml'):
-                        thing = Thing()
-                        thing.yaml = file_contents.read()
-                        self._store.put(thing)
+                        entry = Entry()
+                        entry.yaml = file_contents.read()
+                        self._store.put(entry)
                     elif name.endswith('.tsv'):
                         reader = csv.DictReader(file_contents, delimiter='\t')
                         for row in reader:
                             if len(row.keys()):
-                                thing = Thing()
-                                thing.primitive = row
-                                self._store.put(thing)
+                                entry = Entry()
+                                entry.primitive = row
+                                self._store.put(entry)
 
                     print('stored', name)
 

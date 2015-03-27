@@ -12,7 +12,7 @@ from flask import (
 
 from application import app, db
 from .registry import registers, Register
-from thingstance.representations import representations as _representations
+from entry.representations import representations as _representations
 from .utils import log_traceback
 
 
@@ -57,10 +57,10 @@ def thousands_comma_filter(value):
     return value
 
 
-# TBD: push this into thingstance.representations ..
+# TBD: push this into entry.representations ..
 representations = {}
 for representation in _representations:
-    module = __import__('thingstance.representations.' + representation,
+    module = __import__('entry.representations.' + representation,
                         globals(),
                         locals(),
                         ['content_type'])
@@ -76,42 +76,42 @@ def subdomain(request):
         return subdomain
 
 
-def represent_thing(thing, suffix):
-    text = getattr(thing, suffix)
+def represent_entry(entry, suffix):
+    text = getattr(entry, suffix)
     resp = make_response(text, 200)
     resp.headers['Content-Type'] = representations[suffix].content_type
     return resp
 
 
 @app.route("/hash/<hash>")
-def thing_by_hash(hash):
-    return thing_by_hash_suffix(hash, "html")
+def entry_by_hash(hash):
+    return entry_by_hash_suffix(hash, "html")
 
 
 @app.route("/hash/<hash>.<suffix>")
-def thing_by_hash_suffix(hash, suffix="html"):
+def entry_by_hash_suffix(hash, suffix="html"):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
-    thing = register._store.get(hash)
-    if thing:
+    entry = register._store.get(hash)
+    if entry:
         if suffix == "html":
-            return render_template("thing.html",
+            return render_template("entry.html",
                                    register=register.primitive,
                                    representations=representations,
                                    hash=hash,
-                                   thing=thing.primitive)
+                                   entry=entry.primitive)
 
         if suffix in representations:
-                return represent_thing(thing, suffix)
+                return represent_entry(entry, suffix)
     else:
         abort(404)
 
 
 @app.route("/")
-def things():
-    return find_things("Thing",
-                       query={},
-                       page=int(request.args.get('page', 1)))
+def entries():
+    return find_entries("Entry",
+                        query={},
+                        page=int(request.args.get('page', 1)))
 
 
 @app.route("/search")
@@ -147,46 +147,46 @@ def load_data():
         log_traceback(current_app.logger, ex)
         flash('Problem loading data into register', 'error')
 
-    return redirect(url_for('things', _external=True))
+    return redirect(url_for('entries', _external=True))
 
 
 @app.route("/<key>/<value>")
-def find_latest_thing_by_addressCountry(key, value):
-    return find_latest_thing(query={key: value})
+def find_latest_entry_by_addressCountry(key, value):
+    return find_latest_entry(query={key: value})
 
 
-def find_latest_thing(query={}, suffix="html"):
+def find_latest_entry(query={}, suffix="html"):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
-    meta, things = register._store.find(query)
-    thing = things[0]  # egregious hack to find latest ..
-    return thing_by_hash_suffix(thing.hash, "html")
+    meta, entries = register._store.find(query)
+    entry = entries[0]  # egregious hack to find latest ..
+    return entry_by_hash_suffix(entry.hash, "html")
 
 
-def find_things(tag, query={}, suffix="html", page=None):
+def find_entries(tag, query={}, suffix="html", page=None):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
 
     if not page:
         page = 1
-    meta, things = register._store.find(query, page)
+    meta, entries = register._store.find(query, page)
 
-    things_list = [[thing.hash, thing.primitive] for thing in things]
-    thing_keys = []
-    if things_list:
-        thing_keys = [field for field in things_list[0][1]]
+    entries_list = [[entry.hash, entry.primitive] for entry in entries]
+    entry_keys = []
+    if entries_list:
+        entry_keys = [field for field in entries_list[0][1]]
         # TBD: order by field names in the register
-        thing_keys.sort()
-        if "name" in thing_keys:
-            thing_keys.remove("name")
-            thing_keys = ["name"] + thing_keys
+        entry_keys.sort()
+        if "name" in entry_keys:
+            entry_keys.remove("name")
+            entry_keys = ["name"] + entry_keys
     if suffix == "html":
-        return render_template("things.html",
+        return render_template("entries.html",
                                register=register.primitive,
                                representations=representations,
                                meta=meta,
-                               things_list=things_list,
-                               thing_keys=thing_keys)
+                               entries_list=entries_list,
+                               entry_keys=entry_keys)
 
 
 def find_or_initalise_register(register_name):

@@ -13,15 +13,15 @@ def requirements():
         return [l.strip('\n') for l in f if l.strip('\n') and not l.startswith('#') and not l.startswith('-e')]
 
 reqs = requirements()
-reqs.append("thingstance==0.1.0")
+reqs.append("openregister==0.1.0")
 
-setup(name='thingstance.org',
-      version='0.1.0',
-      description='Thingstance Flask Application',
-      author='Thingstance.org',
+setup(name='openregister',
+      version='0.2.0',
+      description='Openregister Flask Application',
+      author='Openregister.org',
       author_email='paul.downey@whatfettle.com',
-      url='https://github.com/thingstance/thing',
-      download_url = 'https://github.com/thingstance/thingstance.org/tarball',
+      url='https://github.com/openregister/openregister',
+      download_url = 'https://github.com/openregister/openregister/archive/master.zip',
       packages=find_packages(exclude=['tests']),
       zip_safe=False,
       include_package_data=True,
@@ -34,12 +34,12 @@ setup(name='thingstance.org',
         ),
       install_requires=reqs,
       dependency_links=[
-        "git+ssh://git@github.com/thingstance/thingstance.git@0.1.0#egg=thingstance-0.1.0"
+        "git+ssh://git@github.com/openregister/entry.git@0.2.0#egg=openregister-entry-0.2.0"
       ],
       scripts = ['bin/run.sh']
 )
 
 # crikey this bit below was painful
 # see http://mike.zwobble.org/2013/05/adding-git-or-hg-or-svn-dependencies-in-setup-py/
-# git@github.com:thingstance/thingstance.git
-# git+ssh://git@github.com/thingstance/thingstance.git
+# git@github.com:openregister/openregister.git
+# git+ssh://git@github.com/openregister/openregister.git

@@ -103,8 +103,8 @@ h2 {
   padding-top: 4px;
 }
 
-/* things in registers*/
-.thing {
+/* entries in registers*/
+.entry {
   background:#eceded;
   border:none;
   border-radius: 0;
@@ -113,7 +113,7 @@ h2 {
   font-family:monospace;
 }
 
-.thing dt {
+.entry dt {
   font-weight: normal;
   line-height: 1;
   border-top: dotted 1px #DDDDDD;
@@ -121,13 +121,13 @@ h2 {
   font-size: 1rem;
 }
 
-.thing dt a {
+.entry dt a {
   font-weight: normal;
   color: #333333;
 }
 
-.thing dt a:hover,
-.thing dt a:focus {
+.entry dt a:hover,
+.entry dt a:focus {
   color: #007BA0;
 }
 
@@ -150,27 +150,27 @@ dl dd {
   margin-bottom: 1rem;
 }
 
-table.things {
+table.entries {
   width: 100%;
   font-family:monospace;
   border: none;
   background: #ccc;
 }
 
-table.things tbody {
+table.entries tbody {
     overflow-y: scroll;
 }
 
-table.things tr {
+table.entries tr {
   background: #eceded;
 }
 
-table.things tr.even {
+table.entries tr.even {
   background: #eceded;
 }
 
-table.things th,
-table.things td {
+table.entries th,
+table.entries td {
   text-align: left;
   border: none;
   vertical-align: top;
