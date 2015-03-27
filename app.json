@@ -11,7 +11,7 @@
         },
         "BASE_URL": {
             "description": "The base url for the application - override on deploy",
-            "value": "http://register.dev"
+            "value": "http://openregister.dev"
         },
         "PAGE_SIZE": {
             "description": "Pagination configuration",
@@ -27,7 +27,7 @@
         },
         "REGISTER_DOMAIN": {
             "description": "Register domain - override on deploy",
-            "value": "register.dev"
+            "value": "openregister.dev"
         }
     }
 }

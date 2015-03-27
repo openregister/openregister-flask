@@ -24,7 +24,7 @@
 
         <h2>View entries</h2>
 
-        <div class="panel thing" id="entries">
+        <div class="panel entry" id="entries">
 
         {% if meta.pages == 1 %}
         <div class="search">
@@ -35,11 +35,11 @@
 
         <div id="table-outer">
 
-          <table class="things">
+          <table class="entries">
 
             <thead>
               <tr>
-              {% for key in thing_keys %}
+              {% for key in entry_keys %}
                 <th>{{ key | datatype("field")}}
                   {% if meta.pages == 1 %}
                   <span class="sort" data-sort="{{ key }}">sort</span>
@@ -52,10 +52,10 @@
 
             <tbody class="list">
 
-              {% for hash, thing in things_list %}
+              {% for hash, entry in entries_list %}
               <tr>
-              {% for key in thing_keys %}
-                <td class="{{ key }}">{{ thing[key]|datatype(key) }}</td>
+              {% for key in entry_keys %}
+                <td class="{{ key }}">{{ entry[key]|datatype(key) }}</td>
               {% endfor %}
               </tr>
               {% endfor %}
@@ -92,7 +92,7 @@
     document.getElementsByClassName('search')[0].style.visibility = 'visible';
 
     var valueNames = ['name'];
-    {% for key in thing_keys %}
+    {% for key in entry_keys %}
     valueNames.push('{{ key }}')
     {% endfor %}
     var options = {

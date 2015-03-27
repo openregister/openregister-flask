@@ -7,23 +7,23 @@
 
       <div class="small-12 large-12 columns">
 
-      <h1>{{ thing["name"] }}</h1>
+      <h1>{{ entry["name"] }}</h1>
 
       <p>An entry in the <a href="/">{{ register.name }} register</a>.</p>
 
       <h2>View fields</h2>
 
-      <div class="panel thing">
+      <div class="panel entry">
         <dl>
-          {% for field in thing %}
+          {% for field in entry %}
           <dt class="{{ field }}">{{ field|datatype("field") }}</dt>
-          <dd class="{{ field }}">{{ thing[field]|datatype(field) }}</dd>
+          <dd class="{{ field }}">{{ entry[field]|datatype(field) }}</dd>
           {% endfor %}
 
           <dt class="hash">{{ "hash"|datatype("field") }}</dt>
           <dd class="hash">{{ hash|datatype("hash") }}</dd>
         </dl>
-      </div> <!-- /.thing -->
+      </div> <!-- /.entry -->
 
       <h2>Get the data</h2>
 

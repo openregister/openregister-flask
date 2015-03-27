@@ -2,5 +2,5 @@
 
 . ../environment.sh
 
-echo 'db.things.remove("")' | mongo
+echo 'db.entries.remove("")' | mongo
 ../manage.py load_data -s ../data/data/

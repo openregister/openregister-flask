@@ -5,7 +5,7 @@
 -->
 
 {% if meta.page > 1 %}
-  <a rel="prev" href="{{url_for('things', page=meta.page-1)}}">Prev</a>
+  <a rel="prev" href="{{url_for('entries', page=meta.page-1)}}">Prev</a>
 {% endif %}
 
 <span class="pageno">
@@ -14,7 +14,7 @@
 </span>
 
 {% if meta.page < meta.pages %}
-  <a rel="next" href="{{url_for('things', page=meta.page+1)}}">Next</a>
+  <a rel="next" href="{{url_for('entries', page=meta.page+1)}}">Next</a>
 {% endif %}
 
 </div>
