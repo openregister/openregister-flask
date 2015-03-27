@@ -110,8 +110,8 @@ def entry_by_hash_suffix(hash, suffix="html"):
 @app.route("/")
 def entries():
     return find_entries("Entry",
-                       query={},
-                       page=int(request.args.get('page', 1)))
+                        query={},
+                        page=int(request.args.get('page', 1)))
 
 
 @app.route("/search")
