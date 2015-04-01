@@ -32,10 +32,10 @@ deploy:
      secure: eSYw1flDzVAq0gpbEaIXJY6ZdgLQIA8FflZFpbVddut5fKPXTi+j7td7gNIf/wo1uPB6uCrhvG1cxLYhuz9N3E6M2m4x5qXIAbdsDZ4sY2paABdQGY0cwmTAkdmb5NSYKzPj4YfBYp7oodjVknwbgSI4+ri8hg36wNQklclfic4=
    app: register-openregister
    on:
-     repo: openregister/openregister
-   - provider: heroku
-  api_key:
+     repo: openregister/
+ - provider: heroku
+   api_key:
      secure: eSYw1flDzVAq0gpbEaIXJY6ZdgLQIA8FflZFpbVddut5fKPXTi+j7td7gNIf/wo1uPB6uCrhvG1cxLYhuz9N3E6M2m4x5qXIAbdsDZ4sY2paABdQGY0cwmTAkdmb5NSYKzPj4YfBYp7oodjVknwbgSI4+ri8hg36wNQklclfic4=
-   app: court-openregister
+   app: register-openregister
    on:
      repo: openregister/openregister
