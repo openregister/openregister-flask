@@ -78,6 +78,16 @@ def subdomain(request):
 
 def represent_entry(entry, suffix):
     text = getattr(entry, suffix)
+    return create_response(text, suffix)
+
+
+def represent_entries(entries, suffix):
+    response_data = [getattr(entry, suffix) for entry in entries]
+    text = '[' + ",".join(response_data) + ']'
+    return create_response(text, suffix)
+
+
+def create_response(text, suffix):
     resp = make_response(text, 200)
     resp.headers['Content-Type'] = representations[suffix].content_type
     return resp
@@ -93,32 +103,47 @@ def entry_by_hash_suffix(hash, suffix="html"):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
     entry = register._store.get(hash)
+    return render_entry(entry, "entry.html", register, suffix)
+
+
+def render_entry(entry, template, register, suffix):
     if entry:
         if suffix == "html":
-            return render_template("entry.html",
+            return render_template(template,
                                    register=register.primitive,
                                    representations=representations,
-                                   hash=hash,
+                                   hash=entry.hash,
                                    entry=entry.primitive)
 
-        if suffix in representations:
-                return represent_entry(entry, suffix)
+    if suffix in representations:
+        return represent_entry(entry, suffix)
     else:
         abort(404)
 
 
 @app.route("/")
 def entries():
-    return find_entries("Entry",
-                        query={},
+    return find_entries(query={},
                         page=int(request.args.get('page', 1)))
 
 
 @app.route("/search")
 def search():
-    # fake data for now
-    register_name = {'name': subdomain(request)}
-    return render_template('search.html', register=register_name)
+    return search_with_suffix('html')
+
+
+@app.route("/search.<suffix>")
+def search_with_suffix(suffix):
+
+    field = request.args.get('field')
+    value = request.args.get('value')
+
+    if field is None or value is None:
+        query = {}
+    else:
+        query = {field: value}
+
+    return find_entries(query, suffix=suffix)
 
 
 # TODO - protect urls like this
@@ -151,19 +176,19 @@ def load_data():
 
 
 @app.route("/<key>/<value>")
-def find_latest_entry_by_addressCountry(key, value):
+def find_latest_entry_by_kv(key, value):
     return find_latest_entry(query={key: value})
 
 
-def find_latest_entry(query={}, suffix="html"):
+def find_latest_entry(query={}):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
     meta, entries = register._store.find(query)
-    entry = entries[0]  # egregious hack to find latest ..
+    entry = entries[0]  # egregious hack to find latest ..)
     return entry_by_hash_suffix(entry.hash, "html")
 
 
-def find_entries(tag, query={}, suffix="html", page=None):
+def find_entries(query={}, suffix="html", page=None):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
 
@@ -187,6 +212,11 @@ def find_entries(tag, query={}, suffix="html", page=None):
                                meta=meta,
                                entries_list=entries_list,
                                entry_keys=entry_keys)
+
+    if suffix in representations:
+        return represent_entries(entries, suffix)
+    else:
+        return abort(404)
 
 
 def find_or_initalise_register(register_name):
