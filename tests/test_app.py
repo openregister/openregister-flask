@@ -1,4 +1,5 @@
 import application
+import json
 
 app = application.app.test_client()
 db = application.db
@@ -41,3 +42,39 @@ def test_search():
     body = response.data.decode("utf-8")
     assert body == '[{"id":123,"someField":"thevalue"},' \
                    '{"id":678,"someField":"thevalue"}]'
+
+
+def test_search_allows_partial_match():
+    collections = db.collection_names()
+    if 'testing' not in collections:
+        db.create_collection('testing')
+    collection = db['testing']
+    collection.remove()
+    collection.insert({"id": 123, "field": "value"})
+    search_url = '/search.json?field=field&value=val'
+
+    response = app.get(search_url, base_url=field_url)
+
+    assert response.status_code == 200
+    data = json.loads(response.data.decode('utf-8'))
+    assert len(data) == 1
+    assert data[0]["id"] == 123
+    assert data[0]["field"] == "value"
+
+
+def test_search_allows_case_insensitive_match():
+    collections = db.collection_names()
+    if 'testing' not in collections:
+        db.create_collection('testing')
+    collection = db['testing']
+    collection.remove()
+    collection.insert({"id": 123, "field": "VALUE"})
+    search_url = '/search.json?field=field&value=value'
+
+    response = app.get(search_url, base_url=field_url)
+
+    assert response.status_code == 200
+    data = json.loads(response.data.decode('utf-8'))
+    assert len(data) == 1
+    assert data[0]["id"] == 123
+    assert data[0]["field"] == "VALUE"

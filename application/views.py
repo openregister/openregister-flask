@@ -141,7 +141,7 @@ def search_with_suffix(suffix):
     if field is None or value is None:
         query = {}
     else:
-        query = {field: value}
+        query = {field: {'$regex': value, "$options": "-i"}}
 
     return find_entries(query, suffix=suffix)
 
