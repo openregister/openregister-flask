@@ -1,7 +1,11 @@
 <p class="representations">
     <strong>Download all entries:</strong>
     {% for representation in representations | sort %}
-      <a href="/search.{{ representation }}?{{ request.query_string.decode('utf-8') }}" class="representation">{{ representation }}</a>
+      {% if request.query_string %}
+        <a href="{{ request.path }}.{{ representation }}?{{ request.query_string.decode('utf-8') }}" class="representation">{{ representation }}</a>
+      {% else %}
+        <a href="{{ request.path }}.{{ representation }}" class="representation">{{ representation }}</a>
+      {% endif %}
       {%- if not loop.last %}, {% endif %}
     {% endfor %}
 </p>

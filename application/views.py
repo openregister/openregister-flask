@@ -176,15 +176,15 @@ def load_data():
 
 
 @app.route("/<key>/<value>")
-def find_latest_entry_by_addressCountry(key, value):
+def find_latest_entry_by_kv(key, value):
     return find_latest_entry(query={key: value})
 
 
-def find_latest_entry(query={}, suffix="html"):
+def find_latest_entry(query={}):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
     meta, entries = register._store.find(query)
-    entry = entries[0]  # egregious hack to find latest ..
+    entry = entries[0]  # egregious hack to find latest ..)
     return entry_by_hash_suffix(entry.hash, "html")
 
 
