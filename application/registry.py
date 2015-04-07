@@ -28,6 +28,9 @@ class Register(Entry):
         registers[collection] = self
         Entry.__init__(self, name=name, *args, **kwargs)
 
+    def put(self, entry):
+        self._store.put(entry)
+
     # TBD: move to entry store / representations
     def load(self, path):
         for root, dirs, files in os.walk(path):
@@ -60,7 +63,7 @@ class Register(Entry):
                     elif suffix == ".json":
                         entry.json = text
 
-                    self._store.put(entry)
+                    self.put(entry)
 
     def load_remote(self, url):
         try:
@@ -80,7 +83,7 @@ class Register(Entry):
                     if name.endswith('.yaml'):
                         entry = Entry()
                         entry.yaml = file_contents.read()
-                        self._store.put(entry)
+                        self.put(entry)
                     elif name.endswith('.tsv'):
                         reader = csv.DictReader(file_contents, delimiter='\t')
                         for row in reader:
