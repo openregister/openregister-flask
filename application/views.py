@@ -193,16 +193,22 @@ def create():
         fields = resp.json()[0]['entry']['fields']
         return render_template('create.html', register=register_name, fields=fields)
     else:
-        # just handle form submission for now
         try:
-            entry_dict = {}
-            for val in request.form:
-                entry_dict[val] = request.form[val]
             entry = Entry()
-            entry.primitive = entry_dict
-            register.put(entry)
-            redirect_url = 'http://%s.%s/hash/%s' % (register_name, current_app.config['REGISTER_DOMAIN'], entry.hash)
-            return redirect(redirect_url)
+            if request.headers['Content-Type'] == 'application/x-www-form-urlencoded':
+                for val in request.form:
+                    entry_dict[val] = request.form[val]
+                entry = Entry()
+                entry.primitive = entry_dict
+                register.put(entry)
+                redirect_url = 'http://%s.%s/hash/%s' % (register_name, current_app.config['REGISTER_DOMAIN'], entry.hash)
+                return redirect(redirect_url)
+
+            elif request.headers['Content-Type'] == 'application/json':
+                entry = Entry()
+                entry.primitive = request.get_json()['entry']
+                register.put(entry)
+                return 'OK', 201
         except Exception as ex:
             log_traceback(current_app.logger, ex)
             return 'Internal Server Error', 500
