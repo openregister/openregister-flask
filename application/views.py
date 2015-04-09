@@ -191,7 +191,7 @@ def create():
         url = "http://register.openregister.org/search.json?field=register&value=%s" % register_name
         resp = requests.get(url)
         fields = resp.json()[0]['entry']['fields']
-        return render_template('create.html', register=register_name, fields=fields)
+        return render_template('create.html', register=register, fields=fields)
     else:
         try:
             entry = Entry()
