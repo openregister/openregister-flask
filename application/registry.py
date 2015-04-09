@@ -31,7 +31,6 @@ class Register(Entry):
     def put(self, entry):
         self._store.put(entry)
 
-
     def fields(self):
         return super(Entry, self).primitive
 

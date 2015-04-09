@@ -118,6 +118,11 @@ def create_response(text, suffix):
     return resp
 
 
+def form_post(request):
+    expected = 'application/x-www-form-urlencoded'
+    return request.headers['Content-Type'] == expected
+
+
 @app.route("/hash/<hash>")
 def entry_by_hash(hash):
     return entry_by_hash_suffix(hash, "html")
@@ -177,32 +182,38 @@ def search_with_suffix(suffix):
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-    register_name = subdomain(request)
-    register = registers.get(register_name)
+    name = subdomain(request)
+    register = registers.get(name)
     if not register:
-        register = Register(register_name.capitalize(),
-                                    current_app.config['MONGO_URI'])
-        registers[register_name] = register
+        register = Register(name.capitalize(),
+                            current_app.config['MONGO_URI'])
+        registers[name] = register
+
+    search = "http://register.openregister.org/search.json"
+    url = "%s?field=register&value=%s" % (search, name)
 
     if request.method == 'GET':
         # fetch form fields from register register for register type - ouch
-        # e.g. http://register.openregister.org/search.json?field=register&value=court and use entry.fields
-        # however i think best that we persist this type of metadata with register on intialisation
-        url = "http://register.openregister.org/search.json?field=register&value=%s" % register_name
+        # e.g. http://register.openregister.org/search.
+        # json?field=register&value=court and use entry.fields
+        # however i think best that we persist this type of
+        # metadata with register on intialisation
         resp = requests.get(url)
         fields = resp.json()[0]['entry']['fields']
         return render_template('create.html', register=register, fields=fields)
     else:
         try:
             entry = Entry()
-            if request.headers['Content-Type'] == 'application/x-www-form-urlencoded':
+            entry_dict = {}
+            if form_post(request):
                 for val in request.form:
                     entry_dict[val] = request.form[val]
                 entry = Entry()
                 entry.primitive = entry_dict
                 register.put(entry)
-                redirect_url = 'http://%s.%s/hash/%s' % (register_name, current_app.config['REGISTER_DOMAIN'], entry.hash)
-                return redirect(redirect_url)
+                domain = current_app.config['REGISTER_DOMAIN']
+                url = 'http://%s.%s/hash/%s' % (name, domain, entry.hash)
+                return redirect(url)
 
             elif request.headers['Content-Type'] == 'application/json':
                 entry = Entry()
