@@ -2,10 +2,19 @@
 {% block title %}{{ register.name|capitalize }}{% endblock %}
 {% block header_title %}{{ register.name|capitalize }} Register{% endblock %}
 
+{% block script %}
+{% endblock %}
 {% block content %}
     <div class="row">
       <div class="small-12 large-12 columns">
-        <h1>Create form</h1>
+        <h1>Create Entry form</h1>
+        <form id="create" method="POST">
+          {% for field in fields %}
+            <label for="{{field}}">{{field}}</label>
+            <input type="text" id="{{field}}" name="{{field}}"/>
+          {% endfor %}
+          <input class="button" type="submit" value="create">
+        </form>
         {% include "licence.html" %}
       </div> <!-- /.columns -->
   </div> <!-- /.row -->

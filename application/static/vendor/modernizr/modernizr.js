@@ -1,5 +1,5 @@
 /*!
- * Modernizr v2.8.1
+ * Modernizr v2.8.3
  * www.modernizr.com
  *
  * Copyright (c) Faruk Ates, Paul Irish, Alex Sexton
@@ -24,7 +24,7 @@
 
 window.Modernizr = (function( window, document, undefined ) {
 
-    var version = '2.8.1',
+    var version = '2.8.3',
 
     Modernizr = {},
 
@@ -466,7 +466,7 @@ window.Modernizr = (function( window, document, undefined ) {
     // geolocation is often considered a trivial feature detect...
     // Turns out, it's quite tricky to get right:
     //
-    // Using !!navigator.geolocation does two entries we don't want. It:
+    // Using !!navigator.geolocation does two things we don't want. It:
     //   1. Leaks memory in IE9: github.com/Modernizr/Modernizr/issues/513
     //   2. Disables page caching in WebKit: webk.it/43956
     //

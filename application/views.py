@@ -12,6 +12,8 @@ from flask import (
     url_for
 )
 
+import requests
+
 from application import app, db
 from .registry import registers, Register
 from entry.representations import representations as _representations
@@ -177,20 +179,30 @@ def search_with_suffix(suffix):
 def create():
     register_name = subdomain(request)
     register = registers.get(register_name)
+    if not register:
+        register = Register(register_name.capitalize(),
+                                    current_app.config['MONGO_URI'])
+        registers[register_name] = register
 
     if request.method == 'GET':
         # fetch form fields from register register for register type - ouch
-        return render_template('create.html', register=register)
+        # e.g. http://register.openregister.org/search.json?field=register&value=court and use entry.fields
+        # however i think best that we persist this type of metadata with register on intialisation
+        url = "http://register.openregister.org/search.json?field=register&value=%s" % register_name
+        resp = requests.get(url)
+        fields = resp.json()[0]['entry']['fields']
+        return render_template('create.html', register=register_name, fields=fields)
     else:
+        # just handle form submission for now
         try:
-            if not register:
-                register = Register(register_name.capitalize(),
-                                    current_app.config['MONGO_URI'])
-                registers[register_name] = register
+            entry_dict = {}
+            for val in request.form:
+                entry_dict[val] = request.form[val]
             entry = Entry()
-            entry.primitive = request.get_json()['entry']
+            entry.primitive = entry_dict
             register.put(entry)
-            return 'OK', 201
+            redirect_url = 'http://%s.%s/hash/%s' % (register_name, current_app.config['REGISTER_DOMAIN'], entry.hash)
+            return redirect(redirect_url)
         except Exception as ex:
             log_traceback(current_app.logger, ex)
             return 'Internal Server Error', 500

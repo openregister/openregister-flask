@@ -1,0 +1,23 @@
+{
+  "name": "openregister",
+  "version": "0.1.0",
+  "homepage": "https://github.com/openregister/openregister",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "application/static/vendor"
+  ],
+  "dependencies": {
+    "foundation": "zurb/bower-foundation#~5.5",
+    "roboto-slab-fontface": "*"
+  },
+  "description": "Simple openregister application",
+  "moduleType": [
+    "globals"
+  ]
+}

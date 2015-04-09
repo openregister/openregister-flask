@@ -31,6 +31,10 @@ class Register(Entry):
     def put(self, entry):
         self._store.put(entry)
 
+
+    def fields(self):
+        return super(Entry, self).primitive
+
     # TBD: move to entry store / representations
     def load(self, path):
         for root, dirs, files in os.walk(path):
