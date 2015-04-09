@@ -15,6 +15,7 @@ from flask import (
 from application import app, db
 from .registry import registers, Register
 from entry.representations import representations as _representations
+from entry import Entry
 from .utils import log_traceback
 
 
@@ -170,6 +171,29 @@ def search_with_suffix(suffix):
         query = {field: {'$regex': value, "$options": "-i"}}
 
     return find_entries(query, suffix=suffix)
+
+
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    register_name = subdomain(request)
+    register = registers.get(register_name)
+
+    if request.method == 'GET':
+        # fetch form fields from register register for register type - ouch
+        return render_template('create.html', register=register)
+    else:
+        try:
+            if not register:
+                register = Register(register_name.capitalize(),
+                                    current_app.config['MONGO_URI'])
+                registers[register_name] = register
+            entry = Entry()
+            entry.primitive = request.get_json()['entry']
+            register.put(entry)
+            return 'OK', 201
+        except Exception as ex:
+            log_traceback(current_app.logger, ex)
+            return 'Internal Server Error', 500
 
 
 # TODO - protect urls like this
