@@ -263,9 +263,9 @@ def find_latest_entry_by_kv(key, value):
 def find_latest_entry(query={}):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
-    meta, entries = register.find(query)
+    meta, entries = register.find(query, page=1)
     entry = entries[0]  # egregious hack to find latest ..)
-    return entry_by_hash_suffix(entry.hash, "html")
+    return entry_by_hash_suffix(entry.hash, "json")
 
 
 def find_entries(query={}, suffix="html", page=None):
