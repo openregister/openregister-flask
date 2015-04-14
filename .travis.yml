@@ -8,7 +8,7 @@ install:
 services:
  - mongodb
 before_script:
-  - mongo test --eval 'db.adminCommand({ setParameter: true, textSearchEnabled : true})'
+ - mongo-text.sh
 script:
  - source ./environment.sh
  - make flake8
