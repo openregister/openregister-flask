@@ -151,7 +151,6 @@ def _check_build_status(build_response, url, headers):
     max_poll = 3
     while True and max_poll > 0:
         for i in range(120):
-            print('.', end='', flush=True)
             time.sleep(1)
         print('\nchecking build status')
         resp = requests.get(check_url, headers=headers)

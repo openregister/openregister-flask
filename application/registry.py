@@ -24,15 +24,15 @@ logger.addHandler(logging.StreamHandler())
 class Register(Entry):
     def __init__(self, name, mongo_uri, *args, **kwargs):
         collection = name.lower()
-        self._store = MongoStore(mongo_uri, collection=collection)
+        self.store = MongoStore(mongo_uri, collection=collection)
         registers[collection] = self
         Entry.__init__(self, name=name, *args, **kwargs)
 
     def put(self, entry):
-        self._store.put(entry)
+        self.store.put(entry)
 
-    def fields(self):
-        return super(Entry, self).primitive
+    def find(self, query, page):
+        return self.store.find(query, page)
 
     # TBD: move to entry store / representations
     def load(self, path):
@@ -93,7 +93,7 @@ class Register(Entry):
                             if len(row.keys()):
                                 entry = Entry()
                                 entry.primitive = row
-                                self._store.put(entry)
+                                self.store.put(entry)
 
                     print('stored', name)
 

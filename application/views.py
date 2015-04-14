@@ -132,7 +132,7 @@ def entry_by_hash(hash):
 def entry_by_hash_suffix(hash, suffix="html"):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
-    entry = register._store.get(hash)
+    entry = register.store.get(hash)
     return render_entry(entry, "entry.html", register, suffix)
 
 
@@ -169,13 +169,14 @@ def search():
 @app.route("/search.<suffix>")
 def search_with_suffix(suffix):
 
-    field = request.args.get('field')
-    value = request.args.get('value')
+    q = request.args.get('q')
 
-    if field is None or value is None:
+    if not q:
         query = {}
     else:
-        query = {field: {'$regex': value, "$options": "-i"}}
+        query = {"$text": {"$search": q}}
+
+    current_app.logger.info(query)
 
     return find_entries(query, suffix=suffix)
 
@@ -262,7 +263,7 @@ def find_latest_entry_by_kv(key, value):
 def find_latest_entry(query={}):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
-    meta, entries = register._store.find(query)
+    meta, entries = register.find(query)
     entry = entries[0]  # egregious hack to find latest ..)
     return entry_by_hash_suffix(entry.hash, "html")
 
@@ -273,7 +274,7 @@ def find_entries(query={}, suffix="html", page=None):
 
     if not page:
         page = 1
-    meta, entries = register._store.find(query, page)
+    meta, entries = register.find(query, page)
 
     entries_list = [[entry.hash, entry.primitive] for entry in entries]
     entry_keys = []

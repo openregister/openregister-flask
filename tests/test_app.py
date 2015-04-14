@@ -1,13 +1,41 @@
 import application
 import json
-from application.registry import registers
+
+from application.registry import Register
+from pymongo import TEXT
 
 from entry import Entry
 
 app = application.app.test_client()
 db = application.db
+register = Register('testing', application.app.config['MONGO_URI'])
+
 registry_url = 'http://openregister.org/'
 field_url = 'http://testing.openregister.org/'
+
+
+def setup():
+    collections = db.collection_names()
+    if 'testing' not in collections:
+        db.create_collection('testing')
+    collection = db['testing']
+    collection.drop_indexes()
+    collection.create_index([('someField', TEXT), ('otherField', TEXT)])
+
+    entry = Entry()
+    entry.primitive = {"id": 123, "someField": "thevalue"}
+    register.put(entry)
+
+    entry.primitive = {"id": 678, "someField": "thevalue"}
+    register.put(entry)
+
+    entry.primitive = {"id": 234, "otherField": "another value"}
+    register.put(entry)
+
+
+def teardown():
+    collection = db['testing']
+    collection.remove()
 
 
 def test_get_unknown_domain_404():
@@ -16,9 +44,6 @@ def test_get_unknown_domain_404():
 
 
 def test_get_entries():
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
     response = app.get('/', base_url=field_url)
     assert response.status_code == 200
 
@@ -31,15 +56,7 @@ def test_get_entry_404():
 
 def test_get_entry_json_by_hash():
     entry = Entry()
-    entry.primitive = {"onefield": 123, "anotherfield": "value"}
-
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
-    collection = db['testing']
-    collection.remove()
-
-    registers["testing"].put(entry)
+    entry.primitive = {"id": 123, "someField": "thevalue"}
 
     response = app.get('/hash/%s.json' % entry.hash, base_url=field_url)
     assert response.status_code == 200
@@ -49,15 +66,8 @@ def test_get_entry_json_by_hash():
 
 def test_get_entry_yaml_by_hash():
     entry = Entry()
-    entry.primitive = {"field": "value"}
-
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
-    collection = db['testing']
-    collection.remove()
-
-    registers["testing"].put(entry)
+    entry.primitive = {'field': 'value'}
+    register.put(entry)
 
     response = app.get('/hash/%s.yaml' % entry.hash, base_url=field_url)
     assert response.status_code == 200
@@ -66,73 +76,43 @@ def test_get_entry_yaml_by_hash():
 
 
 def test_search_json():
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
-    collection = db['testing']
-    collection.remove()
-    collection.insert({"id": 123, "someField": "thevalue"})
-    collection.insert({"id": 678, "someField": "thevalue"})
-    collection.insert({"id": 234, "someField": "another value"})
-
-    response = app.get('/search.json?field=someField&value=thevalue',
+    response = app.get('/search.json?q=thevalue',
                        base_url=field_url)
     assert response.status_code == 200
     data = json.loads(response.data.decode('utf-8'))
     assert len(data) == 2
-    assert data[0]['hash']  # just assert there is a hash for now
-    assert data[0]['entry'] == {'id': 123, 'someField': 'thevalue'}
-    assert data[1]['hash']
-    assert data[1]['entry'] == {'id': 678, 'someField': 'thevalue'}
+    for res in data:
+        assert res['hash']  # just assert there is a hash for now
+        assert res['entry']['someField'] == 'thevalue'
 
 
 def test_search_allows_partial_match_json():
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
-    collection = db['testing']
-    collection.remove()
-    collection.insert({"id": 123, "field": "value"})
-    search_url = '/search.json?field=field&value=val'
 
+    search_url = '/search.json?q=value'
     response = app.get(search_url, base_url=field_url)
 
     assert response.status_code == 200
     data = json.loads(response.data.decode('utf-8'))
     assert len(data) == 1
     assert data[0]['hash']  # just assert there is a hash for now
-    assert data[0]["entry"] == {'id': 123, 'field': 'value'}
+    assert data[0]["entry"] == {'id': 234, 'otherField': 'another value'}
 
 
 def test_search_allows_case_insensitive_match():
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
-    collection = db['testing']
-    collection.remove()
-    collection.insert({"id": 123, "field": "VALUE"})
-    search_url = '/search.json?field=field&value=value'
+
+    search_url = '/search.json?q=VALUE'
 
     response = app.get(search_url, base_url=field_url)
-
     assert response.status_code == 200
     data = json.loads(response.data.decode('utf-8'))
     assert len(data) == 1
     assert data[0]['hash']  # just assert there is a hash for now
-    assert data[0]["entry"] == {'id': 123, 'field': 'VALUE'}
+    assert data[0]["entry"] == {'id': 234, 'otherField': 'another value'}
 
 
 def test_search_yaml():
-    collections = db.collection_names()
-    if 'testing' not in collections:
-        db.create_collection('testing')
-    collection = db['testing']
-    collection.remove()
-    collection.insert({"id": 123, "someField": "thevalue"})
-    collection.insert({"id": 234, "someField": "another value"})
-
-    response = app.get('/search.yaml?field=someField&value=thevalue',
+    response = app.get('/search.yaml?q=another value',
                        base_url=field_url)
     assert response.status_code == 200
     data = response.data.decode('utf-8')
-    assert data == "[id: 123\nsomeField: thevalue\n]"
+    assert data == "[id: 234\notherField: another value\n]"

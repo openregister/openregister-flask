@@ -7,6 +7,8 @@ install:
  - pip install python-coveralls
 services:
  - mongodb
+before_script:
+  - mongo test --eval 'db.adminCommand({ setParameter: true, textSearchEnabled : true})'
 script:
  - source ./environment.sh
  - make flake8
