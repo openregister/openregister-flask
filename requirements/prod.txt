@@ -11,3 +11,4 @@ PyYAML==3.11
 Flask-WTF==0.11
 requests==2.5.1
 openregister-entry==0.3.0
+git+https://github.com/openregister/entry#egg=openregister-entry
