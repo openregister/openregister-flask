@@ -5,10 +5,9 @@ python:
 install:
  - pip install -r requirements/dev.txt --allow-external entry
  - pip install python-coveralls
-services:
- - mongodb
-before_script:
- - ./mongo-text.sh
+services: mongodb
+before_install:
+  - "mongo --eval 'db.runCommand({setParameter: 1, textSearchEnabled: true})' admin"
 script:
  - source ./environment.sh
  - make flake8
