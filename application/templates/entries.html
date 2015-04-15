@@ -57,7 +57,7 @@
               {% for key in entry_keys %}
                 <td class="{{ key }}">{{ entry[key]|datatype(key) }}</td>
               {% endfor %}
-                <td class="hash">{{hash}}</td>
+                <td class="hash"><a href="{{url_for('entry_by_hash', hash=hash)}}">{{hash}}</a></td>
               </tr>
               {% endfor %}
 
