@@ -41,8 +41,12 @@ def datatype_filter(value, fieldname):
     # link by register key - need to make this more general. but can't just
     # check for colon in string?
     if fieldname == "address":
-        register_name, key = value.split(":")
-        return Markup(link(register_name, register_name, key))
+        if ":" in value:
+            register_name, key = value.split(":")
+            return Markup(link(register_name, register_name, key))
+        else:
+            return Markup(link("address", "hash", value))
+
 
     # link by name
     if fieldname == "addressCountry":
