@@ -47,7 +47,6 @@ def datatype_filter(value, fieldname):
         else:
             return Markup(link("address", "address", value))
 
-
     # link by name
     if fieldname == "addressCountry":
         return Markup(link("country", "addressCountry", value))
