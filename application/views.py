@@ -166,18 +166,13 @@ def search():
     return search_with_suffix('html')
 
 
+# very hacky search for moment until we get
+# elastic search style querying
 @app.route("/search.<suffix>")
 def search_with_suffix(suffix):
-
-    q = request.args.get('q')
-
-    if not q:
-        query = {}
-    else:
-        query = {"$text": {"$search": q}}
-
-    current_app.logger.info(query)
-
+    query = {'$or': []}
+    for key, val in request.args.items():
+        query['$or'].append({key: {'$regex': val, "$options": "-i"}})
     return find_entries(query, suffix=suffix)
 
 
@@ -264,8 +259,11 @@ def find_latest_entry(query={}):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
     meta, entries = register.find(query, page=1)
-    entry = entries[0]  # egregious hack to find latest ..)
-    return entry_by_hash_suffix(entry.hash, "json")
+    if entries:
+        entry = entries[0]  # egregious hack to find latest ..)
+        return entry_by_hash_suffix(entry.hash, "json")
+    else:
+        return 'NOT FOUND', 404
 
 
 def find_entries(query={}, suffix="html", page=None):

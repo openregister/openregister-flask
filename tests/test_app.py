@@ -2,7 +2,6 @@ import application
 import json
 
 from application.registry import Register
-from pymongo import TEXT
 
 from entry import Entry
 
@@ -18,9 +17,6 @@ def setup():
     collections = db.collection_names()
     if 'testing' not in collections:
         db.create_collection('testing')
-    collection = db['testing']
-    collection.drop_indexes()
-    collection.create_index([('someField', TEXT), ('otherField', TEXT)])
 
     entry = Entry()
     entry.primitive = {"id": 123, "someField": "thevalue"}
@@ -76,7 +72,7 @@ def test_get_entry_yaml_by_hash():
 
 
 def test_search_json():
-    response = app.get('/search.json?q=thevalue',
+    response = app.get('/search.json?someField=thevalue',
                        base_url=field_url)
     assert response.status_code == 200
     data = json.loads(response.data.decode('utf-8'))
@@ -88,7 +84,7 @@ def test_search_json():
 
 def test_search_allows_partial_match_json():
 
-    search_url = '/search.json?q=value'
+    search_url = '/search.json?otherField=value'
     response = app.get(search_url, base_url=field_url)
 
     assert response.status_code == 200
@@ -100,7 +96,7 @@ def test_search_allows_partial_match_json():
 
 def test_search_allows_case_insensitive_match():
 
-    search_url = '/search.json?q=VALUE'
+    search_url = '/search.json?otherField=VALUE'
 
     response = app.get(search_url, base_url=field_url)
     assert response.status_code == 200
@@ -111,7 +107,7 @@ def test_search_allows_case_insensitive_match():
 
 
 def test_search_yaml():
-    response = app.get('/search.yaml?q=another value',
+    response = app.get('/search.yaml?otherField=another value',
                        base_url=field_url)
     assert response.status_code == 200
     data = response.data.decode('utf-8')
