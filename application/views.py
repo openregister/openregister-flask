@@ -38,9 +38,11 @@ def datatype_filter(value, fieldname):
     if fieldname == "name":
         return Markup('<a href="/name/%s">%s</a>' % (value, value))
 
-    # link by hash
+    # link by register key - need to make this more general. but can't just
+    # check for colon in string?
     if fieldname == "address":
-        return Markup(link("address", "hash", value))
+        register_name, key = value.split(":")
+        return Markup(link(register_name, register_name, key))
 
     # link by name
     if fieldname == "addressCountry":
