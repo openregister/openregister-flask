@@ -175,9 +175,17 @@ def search():
 # elastic search style querying
 @app.route("/search.<suffix>")
 def search_with_suffix(suffix):
-    query = {'$or': []}
-    for key, val in request.args.items():
-        query['$or'].append({key: {'$regex': val, "$options": "-i"}})
+    ids = request.args.getlist('id')
+    if ids:
+        register_name = ids[0].split(':')[0]
+        query = {register_name: {"$in": ids}}
+        current_app.logger.info(query)
+    else:
+        query = {'$or': []}
+        for key, val in request.args.items():
+            query['$or'].append({key: {'$regex': val, "$options": "-i"}})
+        current_app.logger.info(query)
+
     return find_entries(query, suffix=suffix)
 
 
