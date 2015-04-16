@@ -45,7 +45,7 @@ def datatype_filter(value, fieldname):
             register_name, key = value.split(":")
             return Markup(link(register_name, register_name, key))
         else:
-            return Markup(link("address", "hash", value))
+            return Markup(link("address", "address", value))
 
 
     # link by name
