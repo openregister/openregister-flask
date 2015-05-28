@@ -161,9 +161,23 @@ def render_entry(entry, template, register, suffix):
 
 
 @app.route("/")
-def entries():
-    return find_entries(query={},
-                        page=int(request.args.get('page', 1)))
+def index():
+    # TODO record count register name, fields etc.
+    register_name = subdomain(request)
+    register = find_or_initalise_register(register_name)
+    return render_template("index.html", register=register)
+
+
+@app.route("/all.<suffix>")
+def all(suffix):
+    register_name = subdomain(request)
+    register = find_or_initalise_register(register_name)
+    meta, entries = register.find({}, page=1)
+    if suffix == 'json':
+        return represent_entries(entries, suffix)
+    else:
+        return render_template("entries.html", register=register.primitive,
+                               entries=entries)
 
 
 @app.route("/search")
@@ -175,16 +189,17 @@ def search():
 # elastic search style querying
 @app.route("/search.<suffix>")
 def search_with_suffix(suffix):
-    ids = request.args.getlist('id')
-    if ids:
-        register_name = ids[0].split(':')[0]
-        query = {register_name: {"$in": ids}}
-        current_app.logger.info(query)
-    else:
-        query = {'$or': []}
-        for key, val in request.args.items():
-            query['$or'].append({key: {'$regex': val, "$options": "-i"}})
-        current_app.logger.info(query)
+    q = request.args.get("q")
+    name = subdomain(request)
+
+    # config the register url
+    url = "http://register.openregister.org/register/%s.json" % name
+    resp = requests.get(url)
+    fields = resp.json()['entry']['fields']
+
+    query = {'$or': []}
+    for field in fields:
+        query['$or'].append({field: {'$regex': q, "$options": "-i"}})
 
     return find_entries(query, suffix=suffix)
 
@@ -198,8 +213,8 @@ def create():
                             current_app.config['MONGO_URI'])
         registers[name] = register
 
-    search = "http://register.openregister.org/search.json"
-    url = "%s?field=register&value=%s" % (search, name)
+    # config the register url
+    url = "http://register.openregister.org/register/%s.json" % name
 
     if request.method == 'GET':
         # fetch form fields from register register for register type - ouch
@@ -208,7 +223,7 @@ def create():
         # however i think best that we persist this type of
         # metadata with register on intialisation
         resp = requests.get(url)
-        fields = resp.json()[0]['entry']['fields']
+        fields = resp.json()['entry']['fields']
         return render_template('create.html', register=register, fields=fields)
     else:
         try:
@@ -279,30 +294,18 @@ def find_latest_entry(query={}):
         return 'NOT FOUND', 404
 
 
-def find_entries(query={}, suffix="html", page=None):
+def find_entries(query, suffix="html", page=None):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
 
     if not page:
         page = 1
-    meta, entries = register.find(query, page)
 
-    entries_list = [[entry.hash, entry.primitive] for entry in entries]
-    entry_keys = []
-    if entries_list:
-        entry_keys = [field for field in entries_list[0][1]]
-        # TBD: order by field names in the register
-        entry_keys.sort()
-        if "name" in entry_keys:
-            entry_keys.remove("name")
-            entry_keys = ["name"] + entry_keys
+    meta, entries = register.find(query, page)
     if suffix == "html":
         return render_template("entries.html",
                                register=register.primitive,
-                               representations=representations,
-                               meta=meta,
-                               entries_list=entries_list,
-                               entry_keys=entry_keys)
+                               entries=entries)
 
     if suffix in representations:
         return represent_entries(entries, suffix)

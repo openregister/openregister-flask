@@ -3,109 +3,21 @@
 {% block header_title %}{{ register.name|capitalize }} Register{% endblock %}
 
 {% block content %}
+  <div class="row">
+      <div class="small-12 large-8 columns">
+        {% for entry in entries %}
+            <p>hash: {{ entry.hash }}</p>
+            <table>
+                <tbody>
+                    {% for key, val in entry.primitive.items() %}
+                         <tr><td>{{key}}</td><td>{{val}}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+       </div>
+  </div>
 
-    <div class="row">
-
-      <div class="small-12 columns">
-
-        <div class="row intro">
-
-          <div class="medium-9 small-12 columns">
-            <h1>{{ register.name|capitalize }} Register</h1>
-            <p>A register of {{ register.name }} entries.</p>
-          </div>
-
-          <div class="medium-3 small-12 columns metadata">
-            <span class="big-number">{{ meta.total | thousands_comma }}</span>
-            <h4 class="subheader"><small>Total entries</small></h4>
-          </div>
-
-        </div>
-
-        <h2>View entries</h2>
-
-        <div class="panel entry" id="entries">
-
-        {% if meta.pages == 1 %}
-        <div class="search">
-          Filter entries:
-          <input id="search-input" placeholder="search" />
-        </div>
-        {% endif %}
-
-        <div id="table-outer">
-
-          <table class="entries">
-
-            <thead>
-              <tr>
-              {% for key in entry_keys %}
-                <th>{{ key | datatype("field")}}
-                  {% if meta.pages == 1 %}
-                  <span class="sort" data-sort="{{ key }}">sort</span>
-                  {% endif %}
-                </th>
-              {% endfor %}
-              <th>hash</th>
-              </tr>
-            </thead>
-
-            <tbody class="list">
-
-              {% for hash, entry in entries_list %}
-              <tr>
-              {% for key in entry_keys %}
-                <td class="{{ key }}">{{ entry[key]|datatype(key) }}</td>
-              {% endfor %}
-                <td class="hash"><a href="{{url_for('entry_by_hash', hash=hash)}}">{{hash}}</a></td>
-              </tr>
-              {% endfor %}
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-        {% include "meta.html" %}
-
-        </div><!-- /.panel -->
-
-
-        <h2>Get the data</h2>
-
-        {% include "representations.html" %}
-
-        {% include "licence.html" %}
-
-    </div> <!-- /.columns -->
-
-  </div> <!-- ./row -->
-
-<script type="text/javascript" src="{{ url_for('static', filename='vendor/listjs/list.min.js') }}"></script>
-<script type="text/javascript">
-  (function() {
-
-    var elems = document.getElementsByClassName('sort');
-    for (var i=0; i<elems.length; i+=1){
-        elems[i].style.display = "inline-block";
-    }
-    document.getElementsByClassName('search')[0].style.visibility = 'visible';
-
-    var valueNames = ['name'];
-    {% for key in entry_keys %}
-    valueNames.push('{{ key }}')
-    {% endfor %}
-    var options = {
-      valueNames: valueNames
-    };
-    var itemList = new List('entries', options);
-    itemList.on('updated', function() {
-      var s = document.getElementById('visible-records');
-      s.innerHTML = itemList.visibleItems.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    });
-
-  })();
-</script>
+  {% include "licence.html" %}
 
 {% endblock %}

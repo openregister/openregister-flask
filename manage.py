@@ -17,11 +17,8 @@ manager = Manager(app)
 
 @manager.option('-s', '--source', dest='source')
 def load_local_data(source):
-    for name in os.listdir(source):
-        path = os.path.join(source, name)
-        if os.path.isdir(path):
-            register = Register(name, app.config['MONGO_URI'])
-            register.load(path)
+    register = Register('address', app.config['MONGO_URI'])
+    register.load(source)
 
 
 @manager.option('-r', '--register-name', dest='register_name')

@@ -3,9 +3,8 @@
 
 {% block header %}
     <div id="header-wrapper">
-
         <div class="row">
-            <div class="header registry small-12 large-12 columns">
+            <div class="header registry large-12 columns">
                 <nav class="top-bar" data-topbar>
                   <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="/">{% block header_title %}A Register{% endblock %}</a></h1>
                 </nav>
@@ -13,6 +12,21 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block phase_banner %}
+<div class="row">
+    <div class="small-12 large-12 columns">
+
+        <div id="phase-banner">
+              <p>
+                <span class="alpha-phase label">ALPHA</span>
+                <span class="alpha-description">This is a prototype</span>
+              </p>
+            <hr>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block content %}

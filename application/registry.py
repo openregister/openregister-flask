@@ -34,6 +34,9 @@ class Register(Entry):
     def find(self, query, page):
         return self.store.find(query, page)
 
+    def size(self):
+        return self.store.entries.count()
+
     # TBD: move to entry store / representations
     def load(self, path):
         for root, dirs, files in os.walk(path):
@@ -53,7 +56,7 @@ class Register(Entry):
                             if len(d.keys()):
                                 entry = Entry()
                                 entry.primitive = d
-                                self._store.put(entry)
+                                self.store.put(entry)
 
                 else:
                     # assumes one entry per-file.
