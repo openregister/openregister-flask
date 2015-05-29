@@ -5,6 +5,9 @@ import sys
 import json
 import time
 
+import boto
+from boto.s3.connection import OrdinaryCallingFormat
+
 import requests
 
 from flask.ext.script import Manager
@@ -13,7 +16,6 @@ from application.registry import Register, registers
 
 app.config.from_object(os.environ['SETTINGS'])
 manager = Manager(app)
-
 
 @manager.option('-s', '--source', dest='source')
 def load_local_data(source):
@@ -49,6 +51,38 @@ def deploy(register_name):
         _redeploy(register_name, headers)
     else:
         _deploy(register_name, headers)
+
+@manager.option('-b', '--bucketname', dest='bucketname')
+@manager.option('-k', '--key', dest='key')
+@manager.option('-s', '--secret', dest='secret')
+def load_s3_data(bucketname, key, secret):
+
+    conn = boto.s3.connect_to_region("eu-west-1",
+        aws_access_key_id=key,
+        aws_secret_access_key=secret,
+        is_secure=False,
+        calling_format=OrdinaryCallingFormat(),
+    )
+
+    bucket = conn.get_bucket(bucketname)
+    for key in bucket.list():
+        print("{name}\t{size}\t{modified}".format(
+                name=key.name,
+                size=key.size,
+                modified=key.last_modified,
+                ))
+
+    address_key_name = "%s.zip" % bucketname.split(".")[0]
+    address_key = bucket.get_key(address_key_name)
+    address_url = address_key.generate_url(3600, query_auth=True, force_http=True)
+
+    print(address_url)
+    register = registers.get('address')
+    if not register:
+        register = Register('address',
+                            app.config['MONGO_URI'])
+        registers['address'] = register
+    register.load_remote(address_url)
 
 
 @manager.option('-r', '--repo-url', dest='repo_url')

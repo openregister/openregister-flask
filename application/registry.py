@@ -74,6 +74,7 @@ class Register(Entry):
     def load_remote(self, url):
         try:
             result = urlopen(url).read()
+            print('Done reading')
             stream = BytesIO(result)
             zipfile = ZipFile(stream, 'r')
 
