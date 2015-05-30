@@ -70,13 +70,11 @@ def load_s3_data(bucketname, key, secret):
     key_name = "%s.zip" % bucketname.split(".")[0]
     key = bucket.get_key(key_name)
     load_url = key.generate_url(3600, query_auth=True,
-                                           force_http=True)
-
+                                force_http=True)
     print("Queuing load from:", load_url)
-
     redis_queue.rpush('load_url', load_url)
-
     print("Done")
+
 
 @manager.option('-r', '--repo-url', dest='repo_url')
 def load_remote_data(repo_url):

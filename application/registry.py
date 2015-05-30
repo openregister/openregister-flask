@@ -103,4 +103,3 @@ class Register(Entry):
 
         except Exception as ex:
             log_traceback(logger, ex)
-
