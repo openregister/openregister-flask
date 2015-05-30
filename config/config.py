@@ -7,6 +7,7 @@ class Config(object):
     PAGE_SIZE = int(os.environ['PAGE_SIZE'])
     SECRET_KEY = os.environ['SECRET_KEY']
     GITHUB_ORG = os.environ['GITHUB_ORG']
+    REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
 
 class DevelopmentConfig(Config):
     DEBUG = True

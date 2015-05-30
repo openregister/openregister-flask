@@ -17,5 +17,8 @@ import pymongo
 client = pymongo.MongoClient(app.config['MONGO_URI'])
 db = client.get_default_database()
 
+import redis
+REDIS_URL = app.config['REDIS_URL']
+redis_queue = redis.from_url(REDIS_URL)
 
 from application.views import *  # NOQA

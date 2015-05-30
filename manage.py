@@ -11,7 +11,7 @@ from boto.s3.connection import OrdinaryCallingFormat
 import requests
 
 from flask.ext.script import Manager
-from application import app
+from application import app, redis_queue
 from application.registry import Register, registers
 
 app.config.from_object(os.environ['SETTINGS'])
@@ -67,19 +67,16 @@ def load_s3_data(bucketname, key, secret):
                                      )
 
     bucket = conn.get_bucket(bucketname)
-    address_key_name = "%s.zip" % bucketname.split(".")[0]
-    address_key = bucket.get_key(address_key_name)
-    address_url = address_key.generate_url(3600, query_auth=True,
+    key_name = "%s.zip" % bucketname.split(".")[0]
+    key = bucket.get_key(key_name)
+    load_url = key.generate_url(3600, query_auth=True,
                                            force_http=True)
 
-    print(address_url)
-    register = registers.get('address')
-    if not register:
-        register = Register('address',
-                            app.config['MONGO_URI'])
-        registers['address'] = register
-    register.load_remote(address_url)
+    print("Queuing load from:", load_url)
 
+    redis_queue.rpush('load_url', load_url)
+
+    print("Done")
 
 @manager.option('-r', '--repo-url', dest='repo_url')
 def load_remote_data(repo_url):
