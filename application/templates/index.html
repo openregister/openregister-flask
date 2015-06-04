@@ -4,42 +4,19 @@
 
 {% block content %}
   <div class="row">
-      <div class="small-12 large-8 columns">
-          <div class="official-text">
-              <p>The official register of test entries throughout the UK</p>
-          </div>
+      <div class="large-12 columns">
           <div class="meta-entries">
             <p class="label-text">Total entries:
             <p>{{ register.size() | thousands_comma }}</p>
-            <p class="label-text">Provided by:</p>
-            <p class="big-meta">Test department</p>
-            <p class="label-text">Last updated:</p>
-            <p class="big-meta">TODO</p>
-            <p class="label-text">Fields in this register:</p>
 
-            <p class="homepage-field-labels">
-              TODO get fields
-            </p>
-          </div>
-      </div>
-      <div class="small-12 large-4 columns">
-        <h4>Search register entries</h4>
-        <form action="/search">
-          <div class="row collapse">
-                <div class="small-8 large-11 columns">
-                  <input name="q" type="text" placeholder="Enter search term">
-                  <input type="submit" value="Search" class="button postfix" />
-                </div>
-          </div>
-        </form>
-        <hr class="divider"/>
-        <ul class="side-nav">
-            <li><a href="http://www.openregister.org/">About registers</a></li>
-            <li><a href="http://www.openregister.org/developer">Developer documentation</a></li>
-        </ul>
-      </div>
+          <p>To find an address by full postcode or key (uprn)</p>
+          <p><a href="/postcode/EC3A%205DE">/postcode/EC3A 5DE</a></p>
+          <p><a href="/address/100050893898">/address/100050893898</a></p>
+
+          <ul>
+              <li><a href="http://www.openregister.org/">About registers</a></li>
+              <li><a href="http://www.openregister.org/developer">Developer documentation</a></li>
+          </ul>
+
   </div>
-
-  {% include "licence.html" %}
-
 {% endblock %}
