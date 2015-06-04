@@ -34,6 +34,9 @@ class Register(Entry):
     def find(self, query, page):
         return self.store.find(query, page)
 
+    def find_all(self, query):
+        return self.store.find_all(query)
+
     def size(self):
         return self.store.entries.count()
 

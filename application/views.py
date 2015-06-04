@@ -172,7 +172,7 @@ def index():
 def all(suffix):
     register_name = subdomain(request)
     register = find_or_initalise_register(register_name)
-    meta, entries = register.find({}, page=1)
+    entries = register.find_all({})
     if suffix == 'json':
         return represent_entries(entries, suffix)
     else:
