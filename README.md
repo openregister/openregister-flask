@@ -1,6 +1,6 @@
 A Python/flask implementation of an openregister, ideal for prototyping data models.
 
-[![Build Status](https://travis-ci.org/openregister/openregister.svg)](https://travis-ci.org/openregister/openregister) [![Coverage Status](https://coveralls.io/repos/openregister/openregister/badge.svg)](https://coveralls.io/r/openregister/openregister)
+[![Build Status](https://travis-ci.org/openregister/openregister-flask.svg)](https://travis-ci.org/openregister/openregister-flask) [![Coverage Status](https://coveralls.io/repos/openregister/openregister-flask/badge.svg)](https://coveralls.io/r/openregister/openregister-flask)
 
 Pre-requisites
 --------------
