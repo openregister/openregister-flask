@@ -13,7 +13,7 @@ if not app.debug:
 
 # we'll use this handle to db to check collections
 # this app can serve.
-import pymongo
+import pymongo # NOQA
 client = pymongo.MongoClient(app.config['MONGO_URI'])
 db = client.get_default_database()
 

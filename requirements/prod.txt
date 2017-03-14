@@ -10,4 +10,4 @@ pymongo==2.7.2
 PyYAML==3.11
 Flask-WTF==0.11
 requests==2.5.1
-git+https://github.com/openregister/entry#egg=openregister-entry
+git+https://github.com/openregister/openregister-python@v0.3.0#egg=openregister-entry
