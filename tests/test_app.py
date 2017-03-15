@@ -30,8 +30,7 @@ def setup():
 
 
 def teardown():
-    collection = db['testing']
-    collection.remove()
+    db.drop_collection('testing')
 
 
 def test_get_unknown_domain_404():
